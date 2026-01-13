@@ -1,0 +1,30 @@
+services:
+  poker-service:
+    build:
+      context: ./poker-service
+    entrypoint: /app/entrypoint.sh
+    env_file: .env
+    volumes:
+      - ./poker-service:/app
+      - ./poker-service/firebase-key.json:/app/firebase-key.json
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - django_network
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - django_network
+
+networks:
+  django_network:
+
+volumes:
+  redis_data:

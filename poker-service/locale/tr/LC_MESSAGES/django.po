@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-13 19:59+0000\n"
+"Language: tr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: poker/services.py:141
+msgid "message_room_password_required"
+msgstr "Oda oluşturmak için şifre gereklidir."
+
+#: poker/services.py:149
+msgid "message_room_created_success"
+msgstr "Oda başarıyla oluşturuldu! Room ID: %(room_id)s"
+
+#: poker/services.py:187
+msgid "message_fill_all_fields"
+msgstr "Lütfen tüm alanları doldurun."
+
+#: poker/services.py:188
+msgid "message_room_not_found"
+msgstr "Oda bulunamadı. Lütfen room ID ve şifreyi kontrol edin."
+
+#: poker/services.py:190
+msgid "message_wrong_password"
+msgstr "Şifre hatalı. Lütfen tekrar deneyin."
+
+#: poker/services.py:193
+msgid "message_room_closed"
+msgstr "Oda kapalı. Katılamazsınız."
+
+#: poker/templates/home.html:6
+msgid "home_page_title"
+msgstr "Scrum Poker - Oda Girişi"
+
+#: poker/templates/home.html:16
+msgid "home_logo_text"
+msgstr "Scrum Poker"
+
+#: poker/templates/home.html:17
+msgid "home_logo_description"
+msgstr "Planning Poker için odaya katılın veya yeni oda oluşturun"
+
+#: poker/templates/home.html:27
+msgid "home_join_room_title"
+msgstr "Odaya Katıl"
+
+#: poker/templates/home.html:34
+msgid "home_room_id_label"
+msgstr "Oda ID"
+
+#: poker/templates/home.html:39
+msgid "home_room_id_placeholder"
+msgstr "Örn: ABC123"
+
+#: poker/templates/home.html:47
+msgid "home_password_label"
+msgstr "Şifre"
+
+#: poker/templates/home.html:52
+msgid "home_password_placeholder"
+msgstr "Oda şifresini girin"
+
+#: poker/templates/home.html:59
+msgid "home_join_room_button"
+msgstr "Odaya Katıl"
+
+#: poker/templates/home.html:65
+msgid "home_or_text"
+msgstr "ya da"
+
+#: poker/templates/home.html:69
+msgid "home_create_room_title"
+msgstr "Yeni Oda Oluştur"
+
+#: poker/templates/home.html:76
+msgid "home_new_room_password_label"
+msgstr "Oda Şifresi"
+
+#: poker/templates/home.html:81
+msgid "home_new_room_password_placeholder"
+msgstr "Oda için şifre belirleyin"
+
+#: poker/templates/home.html:85
+msgid "home_new_room_password_help"
+msgstr "Room ID otomatik olarak oluşturulacaktır"
+
+#: poker/templates/home.html:89
+msgid "home_create_room_confirm_button"
+msgstr "Oda Oluştur"
+
+#: poker/templates/layouts/skeleton.layout.html:10
+msgid "web_title"
+msgstr ""
+
+#: poker/templates/room.html:6
+#, python-format
+msgid "room_page_title %(room)s"
+msgstr "Scrum Poker - Room %(room)s"
+
+#: poker/templates/room.html:26
+msgid "room_logo_text"
+msgstr "Scrum Poker"
+
+#: poker/templates/room.html:28
+msgid "room_copy_url"
+msgstr "Oda URL'i kopyalandı"
+
+#: poker/templates/room.html:57
+msgid "room_participants_header"
+msgstr "Katılımcılar"
+
+#: poker/templates/room.html:59
+msgid "participant"
+msgstr "katılımcı"
+
+#: poker/templates/room.html:62 poker/templates/room.html:67
+msgid "room_no_participants"
+msgstr "Henüz katılımcı yok"
+
+#: poker/templates/room.html:63
+msgid "room_reset_votes_confirm"
+msgstr "Tüm oyları sıfırlamak istiyor musunuz?"
+
+#: poker/templates/room.html:64
+msgid "room_remove_participant_confirm"
+msgstr "Kullanıcıyı kaldırmak istiyor musunuz?"
+
+#: poker/templates/room.html:75
+msgid "room_select_point_card"
+msgstr "Puan Kartını Seçin"
+
+#: poker/templates/room.html:76
+msgid "room_point_card_help"
+msgstr "Kartınızı seçmek için üzerine tıklayın"
+
+#: poker/templates/room.html:88
+msgid "room_show_results_button"
+msgstr "Sonuçları Göster"
+
+#: poker/templates/room.html:91
+msgid "room_reset_votes_button"
+msgstr "Oyları Sıfırla"
+
+#: poker/templates/room.html:98
+msgid "room_scrum_poker_results_title"
+msgstr "Scrum Poker Sonuçları"
+
+#: poker/templates/room.html:103
+msgid "room_metric_average"
+msgstr "Ortalama"
+
+#: poker/templates/room.html:108
+msgid "room_metric_median"
+msgstr "Median"
+
+#: poker/templates/room.html:113
+msgid "room_metric_min"
+msgstr "Min"
+
+#: poker/templates/room.html:118
+msgid "room_metric_max"
+msgstr "Max"
+
+#: poker/templates/room.html:125
+msgid "room_metric_modes"
+msgstr "En Çok Verilen Oy(lar)"
+
+#: poker/templates/room.html:130
+msgid "room_metric_distribution"
+msgstr "Oy Dağılımı"
+
+#: poker/templates/room.html:137
+msgid "room_ask_gpt_button"
+msgstr "ChatGPT'ye Sor"

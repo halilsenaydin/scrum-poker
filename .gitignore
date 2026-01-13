@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+*.log
+*.pot
+*.mo
+db.sqlite3
+
+# Virtual env
+env/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Docker
+*.pid
+*.sock
+
+# Firebase keys
+firebase-key.json
+
+# Local files
+.env

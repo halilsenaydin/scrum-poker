@@ -1,0 +1,94 @@
+{% extends "layouts/skeleton.layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "home_page_title" %}
+{% endblock %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="logo">
+      <h1>{% trans "home_logo_text" %}</h1>
+      <p>{% trans "home_logo_description" %}</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="{{ message.tags }}-message">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="form-section">
+      <h2>{% trans "home_join_room_title" %}</h2>
+
+      <form method="POST" action="{% url 'poker:home' %}">
+        {% csrf_token %}
+        <input type="hidden" name="join_room" value="1" />
+
+        <div class="form-group">
+          <label for="room_id">{% trans "home_room_id_label" %}</label>
+          <input
+            type="text"
+            id="room_id"
+            name="room_id"
+            placeholder="{% trans 'home_room_id_placeholder' %}"
+            required
+            autocomplete="off"
+            maxlength="20"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">{% trans "home_password_label" %}</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="{% trans 'home_password_placeholder' %}"
+            required
+            autocomplete="off"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          {% trans "home_join_room_button" %}
+        </button>
+      </form>
+    </div>
+
+    <div class="divider">
+      <span>{% trans "home_or_text" %}</span>
+    </div>
+
+    <div class="form-section">
+      <h2>{% trans "home_create_room_title" %}</h2>
+
+      <form method="POST" action="{% url 'poker:home' %}">
+        {% csrf_token %}
+        <input type="hidden" name="create_room" value="1" />
+
+        <div class="form-group">
+          <label for="new_password">{% trans "home_new_room_password_label" %}</label>
+          <input
+            type="password"
+            id="new_password"
+            name="new_password"
+            placeholder="{% trans 'home_new_room_password_placeholder' %}"
+            required
+            autocomplete="off"
+          />
+          <small>{% trans "home_new_room_password_help" %}</small>
+        </div>
+
+        <button type="submit" class="btn btn-secondary">
+          {% trans "home_create_room_confirm_button" %}
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

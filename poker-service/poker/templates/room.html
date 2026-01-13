@@ -1,0 +1,144 @@
+{% extends "layouts/skeleton.layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% blocktrans with room=room_id %}room_page_title {{ room }}{% endblocktrans %}
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'css/room.css' %}" />
+{% endblock %}
+
+{% block script_files %}
+<script src="{% static 'js/room.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="toast" class="toast">
+  <i class="fa-solid fa-check-circle"></i>
+  <span id="toast-text"></span>
+</div>
+<div class="container" id="room-container" data-room-id="{{ room_id }}">
+  <nav class="top-nav">
+    <div class="nav-left">
+      <a href="{% url 'poker:home' %}" class="logo">
+        {% trans "room_logo_text" %}
+      </a>
+      <div class="room-info" id="room-info" onclick="handleRoomInfo()" data-copied-text="{% trans 'room_copy_url' %}">
+        <span class="status-dot"></span>
+        <span class="room-code">{{ room_id }}</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      {% get_current_language as CURRENT_LANGUAGE %}
+      <span class="language-switcher">
+        {% if CURRENT_LANGUAGE != 'tr' %}
+        <a href="{% url 'poker:set_language' %}?lang=tr">tr</a>
+        {% else %}
+        <span class="active-lang">tr</span>
+        {% endif %}
+
+        |
+
+        {% if CURRENT_LANGUAGE != 'en' %}
+        <a href="{% url 'poker:set_language' %}?lang=en">en</a>
+        {% else %}
+        <span class="active-lang">en</span>
+        {% endif %}
+      </span>
+    </div>
+  </nav>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          {% trans "room_participants_header" %}
+        </div>
+        <div class="participant-count" id="participant-count" data-participant-count="{% trans 'participant' %}">
+        </div>
+      </div>
+      <div class="participant-list" id="participant-list" data-empty-text="{% trans 'room_no_participants' %}"
+        data-reset-votes-confirm-text="{% trans 'room_reset_votes_confirm' %}"
+        data-remove-participant-confirm-text="{% trans 'room_remove_participant_confirm' %}">
+        <div class="empty-state">
+          <div class="empty-icon">👤</div>
+          <div class="empty-text">{% trans "room_no_participants" %}</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <div class="cards-container">
+        <div class="section-title">
+          <h1>{% trans "room_select_point_card" %}</h1>
+          <p>{% trans "room_point_card_help" %}</p>
+        </div>
+        <div class="cards-grid">
+          {% for point in points %}
+          <div class="poker-card {% if point == '?' or point == '∞' %}special{% endif %}" onclick="vote('{{ point }}')"
+            data-value="{{ point }}">
+            {{ point }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="action-buttons">
+          <button class="action-btn action-btn-large btn-primary" onclick="reveal()">
+            {% trans "room_show_results_button" %}
+          </button>
+          <button class="action-btn action-btn-large btn-secondary" onclick="resetVotes()">
+            {% trans "room_reset_votes_button" %}
+          </button>
+        </div>
+      </div>
+
+      <div id="metrics-panel" class="metrics-panel">
+        <div class="metrics-header">
+          <h2>{% trans "room_scrum_poker_results_title" %}</h2>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">{% trans "room_metric_average" %}</span>
+            <span class="metric-value" id="metric-average">-</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">{% trans "room_metric_median" %}</span>
+            <span class="metric-value" id="metric-median">-</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">{% trans "room_metric_min" %}</span>
+            <span class="metric-value" id="metric-min">-</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">{% trans "room_metric_max" %}</span>
+            <span class="metric-value" id="metric-max">-</span>
+          </div>
+        </div>
+
+        <div class="metrics-sub">
+          <div class="metric-row">
+            <span class="metric-label">{% trans "room_metric_modes" %}</span>
+            <span class="metric-badges" id="metric-modes"></span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">{% trans "room_metric_distribution" %}</span>
+            <div class="metric-badges" id="metric-counts"></div>
+          </div>
+        </div>
+
+        <div class="metrics-chatgpt">
+          <button id="ask-gpt-btn" class="action-btn btn-primary">
+            {% trans "room_ask_gpt_button" %}
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}

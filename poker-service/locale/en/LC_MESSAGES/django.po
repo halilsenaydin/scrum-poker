@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-13 19:59+0000\n"
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: poker/services.py:141
+msgid "message_room_password_required"
+msgstr "A password is required to create a room."
+
+#: poker/services.py:149
+msgid "message_room_created_success"
+msgstr "Room successfully created! Room ID: %(room_id)s"
+
+#: poker/services.py:187
+msgid "message_fill_all_fields"
+msgstr "Please fill in all fields."
+
+#: poker/services.py:188
+msgid "message_room_not_found"
+msgstr "Room not found. Please check the room ID and password."
+
+#: poker/services.py:190
+msgid "message_wrong_password"
+msgstr "Incorrect password. Please try again."
+
+#: poker/services.py:193
+msgid "message_room_closed"
+msgstr "The room is closed. You cannot join."
+
+#: poker/templates/home.html:6
+msgid "home_page_title"
+msgstr "Scrum Poker - Room Entry"
+
+#: poker/templates/home.html:16
+msgid "home_logo_text"
+msgstr "Scrum Poker"
+
+#: poker/templates/home.html:17
+msgid "home_logo_description"
+msgstr "Join a room or create a new one for Planning Poker"
+
+#: poker/templates/home.html:27
+msgid "home_join_room_title"
+msgstr "Join Room"
+
+#: poker/templates/home.html:34
+msgid "home_room_id_label"
+msgstr "Room ID"
+
+#: poker/templates/home.html:39
+msgid "home_room_id_placeholder"
+msgstr "e.g., ABC123"
+
+#: poker/templates/home.html:47
+msgid "home_password_label"
+msgstr "Password"
+
+#: poker/templates/home.html:52
+msgid "home_password_placeholder"
+msgstr "Enter room password"
+
+#: poker/templates/home.html:59
+msgid "home_join_room_button"
+msgstr "Join Room"
+
+#: poker/templates/home.html:65
+msgid "home_or_text"
+msgstr "or"
+
+#: poker/templates/home.html:69
+msgid "home_create_room_title"
+msgstr "Create New Room"
+
+#: poker/templates/home.html:76
+msgid "home_new_room_password_label"
+msgstr "Room Password"
+
+#: poker/templates/home.html:81
+msgid "home_new_room_password_placeholder"
+msgstr "Set a password for the room"
+
+#: poker/templates/home.html:85
+msgid "home_new_room_password_help"
+msgstr "Room ID will be generated automatically"
+
+#: poker/templates/home.html:89
+msgid "home_create_room_confirm_button"
+msgstr "Create Room"
+
+#: poker/templates/layouts/skeleton.layout.html:10
+msgid "web_title"
+msgstr "Scrum Poker"
+
+#: poker/templates/room.html:6
+#, python-format
+msgid "room_page_title %(room)s"
+msgstr "Scrum Poker - Oda %(room)s"
+
+#: poker/templates/room.html:26
+msgid "room_logo_text"
+msgstr "Scrum Poker"
+
+#: poker/templates/room.html:28
+msgid "room_copy_url"
+msgstr "Copied room URL"
+
+#: poker/templates/room.html:57
+msgid "room_participants_header"
+msgstr "Participants"
+
+#: poker/templates/room.html:59
+msgid "participant"
+msgstr "participant"
+
+#: poker/templates/room.html:62 poker/templates/room.html:67
+msgid "room_no_participants"
+msgstr "No participants yet"
+
+#: poker/templates/room.html:63
+msgid "room_reset_votes_confirm"
+msgstr "Do you want to reset all votes?"
+
+#: poker/templates/room.html:64
+msgid "room_remove_participant_confirm"
+msgstr "Do you want to remove the user?"
+
+#: poker/templates/room.html:75
+msgid "room_select_point_card"
+msgstr "Select Point Card"
+
+#: poker/templates/room.html:76
+msgid "room_point_card_help"
+msgstr "Click on a card to select your point"
+
+#: poker/templates/room.html:88
+msgid "room_show_results_button"
+msgstr "Show Results"
+
+#: poker/templates/room.html:91
+msgid "room_reset_votes_button"
+msgstr "Reset Votes"
+
+#: poker/templates/room.html:98
+msgid "room_scrum_poker_results_title"
+msgstr "Scrum Poker Results"
+
+#: poker/templates/room.html:103
+msgid "room_metric_average"
+msgstr "Average"
+
+#: poker/templates/room.html:108
+msgid "room_metric_median"
+msgstr "Median"
+
+#: poker/templates/room.html:113
+msgid "room_metric_min"
+msgstr "Min"
+
+#: poker/templates/room.html:118
+msgid "room_metric_max"
+msgstr "Max"
+
+#: poker/templates/room.html:125
+msgid "room_metric_modes"
+msgstr "Most Frequent Vote(s)"
+
+#: poker/templates/room.html:130
+msgid "room_metric_distribution"
+msgstr "Vote Distribution"
+
+#: poker/templates/room.html:137
+msgid "room_ask_gpt_button"
+msgstr "Ask ChatGPT"

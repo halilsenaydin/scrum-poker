@@ -1,0 +1,23 @@
+# Django Core
+Django~=4.2.7
+django-cors-headers~=4.3.1
+
+# WebSocket & Channels
+channels>=4.0.0
+channels-redis>=4.1.0
+daphne>=4.0.0
+
+# Redis Cache / State
+django-redis>=5.4.0
+
+# Image operations
+Pillow~=10.3.0
+
+# HTTP client
+requests
+
+# Firebase Admin SDK
+firebase-admin
+
+# Misc
+setuptools<81
