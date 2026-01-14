@@ -146,7 +146,7 @@ class RoomService:
 
         data = self.create_room_record(room_code, password)
 
-        return ResultUtil.success_result(_("message_room_created_success"), data)
+        return ResultUtil.success_result(_("message_room_created_success") % {"room_id": room_code}, data)
 
     def create_room_record(self, room_code: str, password: str):
         """

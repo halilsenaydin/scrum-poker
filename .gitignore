@@ -16,6 +16,9 @@ venv/
 .idea/
 .vscode/
 
+# nginx certificates
+/nginx/certs
+
 # Docker
 *.pid
 *.sock

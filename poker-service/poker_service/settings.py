@@ -10,8 +10,11 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv("APP_HOST", "localhost").split(",")
 
+CSRF_TRUSTED_ORIGINS = [f"https://{host.strip()}" for host in os.getenv("APP_HOST", "localhost").split(",")]
+
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 3600
@@ -19,9 +22,12 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    
 
 # Application definition
 INSTALLED_APPS = [
+    'django.contrib.auth', 
+    "django.contrib.sessions",
     "django.contrib.contenttypes",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -30,6 +36,14 @@ INSTALLED_APPS = [
 ]
 
 ASGI_APPLICATION = "poker_service.asgi.application"
+
+# Database
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # Redis cache settings
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
@@ -47,6 +61,7 @@ CACHES = {
 }
 
 MIDDLEWARE = [
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -117,3 +132,4 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
