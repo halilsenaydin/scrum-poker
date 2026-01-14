@@ -15,4 +15,8 @@ fi
 
 python manage.py collectstatic --noinput
 
+python manage.py migrate --noinput
+
+python manage.py compilemessages
+
 exec daphne -b 0.0.0.0 -p 8000 poker_service.asgi:application
