@@ -4,7 +4,11 @@
 
 Initial commit setting up prod-ready Django, Redis, and Docker environment **@halilsenaydin**
 
-- Django projesi prod-ready olarak başlatıldı
-- Redis cache ve Channels konfigüre edildi
-- Docker ortamı ve container yapılandırması eklendi
-- Nginx proxy ve static/media yapılandırması hazırlandı
+- Django project initialized for production-ready setup
+- Redis cache and Channels configured
+- Docker environment and container setup added
+- Nginx proxy and static/media configuration prepared
+
+## v1.0.1 - 14-01-2026
+
+Added logo and production errors fixed **@halilsenaydin**
