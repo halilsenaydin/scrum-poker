@@ -1,0 +1,91 @@
+
+.metrics-panel {
+  backdrop-filter: blur(20px);
+  background: var(--bg-glass);
+  border-radius: 20px;
+  border: 1px solid var(--red-opacity-30);
+  padding: 32px;
+  width: 100%;
+}
+
+.metrics-header h2 {
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  text-align: center;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metrics-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-bottom: 32px;
+}
+
+.metric-card {
+  background: var(--white-05);
+  border-radius: 16px;
+  border: 1px solid var(--white-01);
+  padding: 20px;
+  text-align: center;
+}
+
+.metric-label {
+  color: var(--white-06);
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  color: var(--red);
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.metrics-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.metrics-chatgpt {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.metrics-chatgpt .action-btn {
+  font-size: 12px;
+  padding: 12px;
+}
+
+
+.metrics-chatgpt .action-btn.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.metric-badge {
+  background: var(--red-opacity-20);
+  border-radius: 999px;
+  border: 1px solid var(--red-opacity-40);
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+}

@@ -1,0 +1,18 @@
+{% load i18n %} 
+
+<div class="content-container">
+  <div class="section-title" style="text-align: center !important; margin-bottom: 48px !important;">
+    <h1>{% trans "room_select_point_card" %}</h1>
+    <p>{% trans "room_point_card_help" %}</p>
+  </div>
+  <div id="poker-cards" class="cards-grid" data-selected-vote="{{ selected_vote }}">
+    {% for point in points %}
+    <div
+      class="poker-card {% if point == selected_vote %}selected{% endif %} {% if point == '?' or point == '∞' %}special{% endif %}"
+      data-value="{{ point }}"
+    >
+      {{ point }}
+    </div>
+    {% endfor %}
+  </div>
+</div>

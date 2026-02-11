@@ -1,0 +1,91 @@
+.section-title {
+    text-align: left !important;
+    margin-bottom: 24px !important;
+}
+
+.page-header {
+    backdrop-filter: blur(20px);
+    background: var(--bg-glass);
+    border-radius: 20px;
+    border: 1px solid var(--red-opacity-30);
+    padding: 32px;
+    width: 100%;
+}
+
+.page-header-nav {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.nav-breadcrumb {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    min-width: 200px;
+}
+
+.nav-btn {
+    align-items: center;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    gap: 8px;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-btn-secondary {
+    background: var(--white-01);
+    border: 1px solid var(--white-02);
+    color: var(--white);
+}
+
+.breadcrumb-separator {
+    color: var(--white-04);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.breadcrumb-current {
+    color: var(--white-07);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.room-name-badge {
+    align-items: center;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, var(--red-opacity-20) 0%, var(--red-opacity-10) 100%);
+    border-radius: 12px;
+    border: 1px solid var(--red-opacity-30);
+    display: flex;
+    gap: 10px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 12px var(--red-opacity-20);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.room-name-badge:hover {
+    background: linear-gradient(135deg, var(--red-opacity-30) 0%, var(--red-opacity-20) 100%);
+    border-color: var(--red-opacity-40);
+}
+
+.room-code-small {
+    background: var(--black-03);
+    border-radius: 6px;
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+}

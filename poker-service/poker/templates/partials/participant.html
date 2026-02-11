@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<div 
+    id="{% if authentication_key == participant.authentication_key %}current-participant{% endif %}" 
+    class="participant-card {% if participant.task_votes.0 %}voted{% endif %}" 
+    data-name="{{ participant.name }}">
+    <div class="participant-info">
+        <div class="avatar">
+            {{ participant.name|slice:":1"|upper }}
+        </div>
+        <span class="participant-name">
+            {{ participant.name }}
+        </span>
+    </div>
+
+    {% if authentication_key == participant.authentication_key %}
+        <span class="participant-badge">{% trans "room_current_participant_badge_text" %}</span>
+    {% endif %}
+
+    {% if show_vote_display %}
+    <div class="vote-display">
+        {% with vote=participant.task_votes.0 %}
+            {% if is_admin or revealed or authentication_key == participant.authentication_key %}
+                {% if vote %}
+                    {{ vote.vote }}
+                {% else %}
+                    -
+                {% endif %}
+            {% else %}
+                ?
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% endif %}
+
+    {% if is_admin %}
+        <div class="remove-user" data-name="{{ participant.name }}" onclick="handleRemoveUserClick(event, '{{ room_id|escapejs }}')">
+            <i class="fa-solid fa-user-minus"></i>
+        </div>
+    {% endif %}
+</div>

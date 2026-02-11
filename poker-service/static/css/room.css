@@ -326,6 +326,7 @@ body::before {
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: 40px;
   justify-content: center;
   min-height: calc(100vh - 65px);
   padding: 48px;
@@ -549,7 +550,6 @@ body::before {
   background: var(--bg-glass);
   border-radius: 20px;
   border: 1px solid var(--red-opacity-30);
-  margin-top: 48px;
   padding: 32px;
   width: 100%;
 }

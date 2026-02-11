@@ -15,6 +15,10 @@ fi
 
 python manage.py collectstatic --noinput
 
+if [ "$DEBUG" = "True" ]; then
+    python manage.py makemigrations
+fi
+
 python manage.py migrate --noinput
 
 python manage.py compilemessages

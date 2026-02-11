@@ -21,3 +21,6 @@ firebase-admin
 
 # Misc
 setuptools<81
+
+# Whitenoise
+whitenoise

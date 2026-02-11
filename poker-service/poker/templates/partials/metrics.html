@@ -1,0 +1,67 @@
+{% load i18n %}
+
+<div id="metrics-panel" class="metrics-panel">
+  <div class="metrics-header">
+    <h2>{% trans "room_scrum_poker_results_title" %}</h2>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_average" %}</span>
+      <span class="metric-value" id="metric-average">{{metrics.average|floatformat:0}}</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_median" %}</span>
+      <span class="metric-value" id="metric-median">{{metrics.median|floatformat:0}}</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_min" %}</span>
+      <span class="metric-value" id="metric-min">{{metrics.min|floatformat:0}}</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_max" %}</span>
+      <span class="metric-value" id="metric-max">{{metrics.max|floatformat:0}}</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_std_dev" %}</span>
+      <span class="metric-value" id="metric-std-dev">{{metrics.std_dev}}</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">{% trans "room_metric_consensus_score" %}</span>
+      <span class="metric-value" id="metric-consensus-score">{{metrics.consensus_score}}</span>
+    </div>
+  </div>
+
+  <div class="metrics-sub">
+    <div class="metric-row">
+      <span class="metric-label">{% trans "room_metric_modes" %}</span>
+      <span class="metric-badges" id="metric-modes">
+        <span class="metric-badge">
+          {{ metrics.mode|floatformat:0 }}
+        </span>
+      </span>
+    </div>
+
+    <div class="metric-row">
+      <span class="metric-label">{% trans "room_metric_distribution" %}</span>
+      <div class="metric-badges" id="metric-counts">
+        {% for point, count in metrics.distribution.items %}
+          <span class="metric-badge">
+            {{ point }} x {{ count }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics-chatgpt">
+    <button id="ask-gpt-btn" class="action-btn btn-primary">
+      {% trans "room_ask_gpt_button" %}
+    </button>
+  </div>
+</div>

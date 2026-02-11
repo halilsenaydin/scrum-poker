@@ -8,6 +8,10 @@
 
 {% block css_files %}
 <link rel="stylesheet" href="{% static 'css/room.css' %}" />
+
+{% if has_room %}
+  <link rel="stylesheet" href="{% static 'css/page-header.css' %}" />
+{% endif %}
 {% endblock %}
 
 {% block script_files %}
@@ -15,6 +19,14 @@
 {% endblock %}
 
 {% block content %}
+
+{% if has_room %}
+  {% trans "room_select_point_card" as title %}
+  {% trans "room_point_card_help" as subtitle %}
+  {% trans "tasks_title" as previous_label %}
+  {% url "poker:tasks" room_id=room_id as previous_url %}
+{% endif %}
+
 <div id="toast" class="toast">
   <i class="fa-solid fa-check-circle"></i>
   <span id="toast-text"></span>
@@ -70,11 +82,18 @@
     </aside>
 
     <main class="content-area">
+      {% if has_room %}
+        {% include "partials/page-header.html" with title=title subtitle=subtitle previous_label=previous_label previous_url=previous_url %}
+      {% endif %}
+
       <div class="cards-container">
-        <div class="section-title">
-          <h1>{% trans "room_select_point_card" %}</h1>
-          <p>{% trans "room_point_card_help" %}</p>
-        </div>
+        {% if not has_room %}
+          <div class="section-title">
+            <h1>{% trans "room_select_point_card" %}</h1>
+            <p>{% trans "room_point_card_help" %}</p>
+          </div>
+        {% endif %}
+
         <div class="cards-grid">
           {% for point in points %}
           <div class="poker-card {% if point == '?' or point == '∞' %}special{% endif %}" onclick="vote('{{ point }}')"

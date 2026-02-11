@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<div class="page-header">
+  <div class="section-title">
+    <h1>{{ title }}</h1>
+    {% if subtitle %}
+      <p>{{ subtitle }}</p>
+    {% endif %}
+  </div>
+
+  <div class="page-header-nav">
+    <div class="nav-breadcrumb">
+      {% if previous_label %}
+        <button
+        class="nav-btn nav-btn-secondary"
+        {% if previous_url %}
+            onclick="window.location.href='{{ previous_url }}'"
+        {% else %}
+            onclick="history.back()"
+        {% endif %}
+        >
+          <i class="fas fa-list"></i>
+          {{ previous_label }}
+        </button>
+        {% if current_label %}
+          <span class="breadcrumb-separator">/</span>
+        {% endif %}
+      {% endif %}
+
+      {% if current_label %}
+        <span class="breadcrumb-current">{{ current_label }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>

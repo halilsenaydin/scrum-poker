@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class="participant-list" id="participant-list"
+    data-empty-text="{% trans 'room_no_participants' %}"
+    data-reset-votes-confirm-text="{% trans 'room_reset_votes_confirm' %}"
+    data-remove-participant-confirm-text="{% trans 'room_remove_participant_confirm' %}"
+    data-current-participant-badge-text="{% trans 'room_current_participant_badge_text' %}">
+    {% if participants %}
+        {% for participant in participants %}
+            {% include "partials/participant.html" with revealed=revealed participant=participant is_admin=is_admin authentication_key=authentication_key room_id=room_id show_vote_display=show_vote_display only %}
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">👤</div>
+            <div class="empty-text">
+                {% trans "room_no_participants" %}
+            </div>
+        </div>
+    {% endif %}
+</div>

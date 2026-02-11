@@ -52,7 +52,17 @@
   --yellow-opacity-50: rgba(251, 191, 36, 0.5);
   --yellow-opacity-70: rgba(251, 191, 36, 0.7);
 
-  --toast-green: #28a745;
+  --toast-green: rgba(34, 197, 94, 0.15);
+  --toast-red: #fca5a5;
+
+  --success-bg: rgba(34, 197, 94, 0.15);
+  --success-border: rgba(34, 197, 94, 0.4);
+  --success-text: #86efac;
+  --success-icon: #22c55e;
+
+  --error-bg: rgba(220, 38, 38, 0.15);
+  --error-border: rgba(220, 38, 38, 0.4);
+  --error-text: #fca5a5;
 }
 
 body {
@@ -162,6 +172,94 @@ body::before {
 .nav-actions {
   display: flex;
   gap: 10px;
+}
+
+.language-switcher {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+
+.language-switcher a {
+  align-items: center;
+  color: var(--white);
+  display: flex;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+.language-switcher .active-lang {
+  color: var(--red);
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.messages-container {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.message {
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 10px;
+  padding: 14px 18px;
+  width: 100%;
+}
+
+.message.error {
+  background: var(--error-bg);
+  border: 1.5px solid var(--error-border);
+  color: var(--error-text);
+}
+
+.message.error::before {
+  content: '⚠️';
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.message.success {
+  background: var(--success-bg);
+  border: 1.5px solid var(--success-border);
+  color: var(--success-text);
+}
+
+.message.success::before {
+  align-items: center;
+  background: var(--success-icon);
+  border-radius: 50%;
+  color: var(--white);
+  content: '✓';
+  display: flex;
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: bold;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.toast {
+  opacity: 0;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  transform: translateX(100%);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 1000;
+  width: unset !important;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .btn-primary {
@@ -281,6 +379,20 @@ body::before {
   white-space: nowrap;
 }
 
+.participant-badge {
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--red-opacity-40);
+  color: var(--white);
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .vote-display {
   align-items: center;
   background: var(--black-03);
@@ -302,6 +414,16 @@ body::before {
   border-color: var(--white-01);
   color: var(--white-04);
   font-size: 20px;
+}
+
+.remove-user {
+  color: var(--red-dark);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.remove-user:hover {
+  color: var(--red-darker);
 }
 
 .empty-state {
@@ -326,12 +448,12 @@ body::before {
   display: flex;
   flex-direction: column;
   flex: 1;
-  justify-content: center;
+  gap: 40px;
   min-height: calc(100vh - 65px);
   padding: 48px;
 }
 
-.cards-container {
+.content-container {
   max-width: 1400px;
   width: 100%;
 }
@@ -356,91 +478,6 @@ body::before {
   color: var(--white-06);
   font-size: 16px;
   font-weight: 500;
-}
-
-.cards-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  margin-bottom: 40px;
-}
-
-.poker-card {
-  align-items: center;
-  aspect-ratio: 2/3;
-  backdrop-filter: blur(10px);
-  background: linear-gradient(135deg, var(--white-02) 0%, var(--white-05) 100%);
-  border-radius: 20px;
-  border: 2px solid var(--white-02);
-  box-shadow: 0 8px 32px var(--black-03);
-  color: var(--white);
-  cursor: pointer;
-  display: flex;
-  font-size: 48px;
-  font-weight: 800;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.poker-card::before {
-  background: linear-gradient(135deg, var(--red-500-02) 0%, var(--red-opacity-10) 100%);
-  bottom: 0;
-  content: '';
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: opacity 0.3s ease;
-}
-
-.poker-card:hover {
-  background: linear-gradient(135deg, var(--red-500-03) 0%, var(--red-opacity-20) 100%);
-  border-color: var(--red-opacity-60);
-  box-shadow: 0 20px 60px var(--red-500-04);
-  transform: translateY(-20px) scale(1.08) rotate(2deg);
-}
-
-.poker-card:hover::before {
-  opacity: 1;
-}
-
-.poker-card.selected {
-  animation: card-pulse 2s ease-in-out infinite;
-  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
-  border-color: var(--red-darker);
-  box-shadow: 0 20px 60px var(--red-opacity-60);
-  transform: translateY(-15px) scale(1.05);
-}
-
-@keyframes card-pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 20px 60px var(--red-opacity-60);
-  }
-
-  50% {
-    box-shadow: 0 20px 60px var(--red-500-08);
-  }
-}
-
-.poker-card.selected::before {
-  opacity: 0;
-}
-
-.poker-card.special {
-  background: linear-gradient(135deg, var(--yellow-opacity-30) 0%, var(--yellow-opacity-20) 100%);
-  border-color: var(--yellow-opacity-50);
-  color: var(--yellow);
-}
-
-.poker-card.special:hover {
-  background: linear-gradient(135deg, var(--yellow-opacity-40) 0%, var(--amber-500-03) 100%);
-  border-color: var(--yellow-opacity-70);
-  box-shadow: 0 20px 60px var(--yellow-opacity-40);
 }
 
 .action-buttons {
@@ -487,155 +524,6 @@ body::before {
   padding: 16px 40px;
 }
 
-.remove-user {
-  color: var(--red-dark);
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.remove-user:hover {
-  color: var(--red-darker);
-}
-
-.language-switcher {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-}
-
-.language-switcher a {
-  align-items: center;
-  color: var(--white);
-  display: flex;
-  margin: 0 5px;
-  text-decoration: none;
-}
-
-.language-switcher .active-lang {
-  color: var(--red);
-  font-weight: bold;
-  margin: 0 5px;
-}
-
-.toast {
-  align-items: center;
-  background: var(--toast-green);
-  border-radius: 8px;
-  color: var(--white);
-  display: flex;
-  font-family: Arial, sans-serif;
-  gap: 8px;
-  opacity: 0;
-  padding: 12px 16px;
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  transform: translateX(100%);
-  transition: opacity 0.3s, transform 0.3s;
-  z-index: 1000;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.toast i {
-  font-size: 18px;
-}
-
-.metrics-panel {
-  backdrop-filter: blur(20px);
-  background: var(--bg-glass);
-  border-radius: 20px;
-  border: 1px solid var(--red-opacity-30);
-  margin-top: 48px;
-  padding: 32px;
-  width: 100%;
-}
-
-.metrics-header h2 {
-  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 24px;
-  text-align: center;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.metrics-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  margin-bottom: 32px;
-}
-
-.metric-card {
-  background: var(--white-05);
-  border-radius: 16px;
-  border: 1px solid var(--white-01);
-  padding: 20px;
-  text-align: center;
-}
-
-.metric-label {
-  color: var(--white-06);
-  display: block;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.metric-value {
-  color: var(--red);
-  font-size: 32px;
-  font-weight: 800;
-}
-
-.metrics-sub {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.metric-row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.metric-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.metrics-chatgpt {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.metrics-chatgpt .action-btn {
-  font-size: 12px;
-  padding: 12px;
-}
-
-
-.metrics-chatgpt .action-btn.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.metric-badge {
-  background: var(--red-opacity-20);
-  border-radius: 999px;
-  border: 1px solid var(--red-opacity-40);
-  color: var(--red);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 6px 12px;
-}
-
 @media (max-width: 1000px) {
   .main-layout {
     flex-direction: column;
@@ -651,15 +539,6 @@ body::before {
   .content-area {
     padding: 32px 24px;
   }
-
-  .cards-grid {
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  }
-
-  .poker-card {
-    font-size: 40px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -673,15 +552,5 @@ body::before {
 
   .section-title h1 {
     font-size: 28px;
-  }
-
-  .cards-grid {
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-
-  .poker-card {
-    border-radius: 16px;
-    font-size: 32px;
   }
 }

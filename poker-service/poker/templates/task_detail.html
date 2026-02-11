@@ -1,0 +1,93 @@
+{% extends "layouts/room.layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block css_files %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/tasks.css' %}" />
+<link rel="stylesheet" href="{% static 'css/page-header.css' %}" />
+<link rel="stylesheet" href="{% static 'css/poker-cards.css' %}" />
+<link rel="stylesheet" href="{% static 'css/metrics.css' %}" />
+{% endblock %}
+
+{% block script_files %}
+{{ block.super }}
+<script src="{% static 'js/poker-cards.js' %}" defer></script>
+<script src="{% static 'js/task-detail.js' %}" defer></script>
+{% endblock %}
+
+{% block content_main %}
+
+{% trans "task_detail_title" as title %}
+{% trans "task_detail_subtitle" as subtitle %}
+{% trans "tasks_title" as previous_label %}
+{% url "poker:tasks" room_id=room_id as previous_url %}
+
+{% include "partials/page-header.html" with title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
+
+{% if not revealed %}
+  {% include "partials/poker-cards.html" %}
+{% endif %}
+
+<div class="task-detail-container">
+  <div class="task-detail-card {% if not is_admin %}full{% endif %}">
+    <div class="task-detail-main">
+      <div class="task-detail-title-section">
+        <h1 class="task-detail-title">{{ task.title }}</h1>
+        <span class="task-status status-{{ task.status }}">
+          {{ task.get_status_display }}
+        </span>
+      </div>
+
+      <div class="task-detail-description">
+        <h3>{% trans "task_detail_description_label" %}</h3>
+        <p>{{ task.description }}</p>
+      </div>
+
+      <div class="task-detail-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">{% trans "task_detail_created_label" %}</span>
+          <span class="meta-value">{{ task.created_at|date:"d M Y H:i" }}</span>
+        </div>
+        
+        {% if task.sp %}
+          <div class="meta-item">
+            <span class="meta-label">{% trans "task_detail_current_sp_label" %}</span>
+            <span class="meta-value sp-value">{{ task.sp }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if is_admin %}
+      <div class="task-detail-actions">
+        <div class="sp-input-section">
+          <h3>{% trans "task_detail_estimate_title" %}</h3>
+          <p class="sp-help-text">{% trans "task_detail_estimate_help" %}</p>
+
+          <div class="sp-input-group">
+            <label for="story-points">{% trans "task_detail_sp_label" %}</label>
+            <input 
+                type="text" 
+                id="story-points" 
+                class="sp-input" 
+                placeholder="-"
+                value="{{ task.sp|default:'' }}"
+            />
+          </div>
+        </div>
+
+        <div class="action-buttons-vertical">
+          <button id="vote-save-button" class="action-btn action-btn-large btn-primary">
+            <i class="fas fa-save"></i>
+            {% trans "task_detail_save_estimation" %}
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% if is_admin or revealed %}
+{% include "partials/metrics.html" with metrics=metrics only %}
+{% endif %}
+{% endblock %}

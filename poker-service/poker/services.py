@@ -1,6 +1,7 @@
 from __future__ import annotations
 import secrets
 import string
+from typing import Optional
 from firebase_admin import credentials, firestore, initialize_app
 from django.conf import settings
 from django.utils.translation import gettext as _
@@ -127,7 +128,7 @@ class RoomService:
         self.db = FirestoreClient.get_client()
         self.rooms = self.db.collection("rooms")
 
-    def create_room(self, password: str) -> Result:
+    def create_room(self, password: str, room_code: Optional[str] = None) -> Result:
         """
         Create a new poker room with the given password
 
@@ -137,7 +138,9 @@ class RoomService:
         Returns:
             Result: Result object indicating success or failure
         """
-        room_code = self._generate_unique_room_code()
+        if not room_code:
+            room_code = self._generate_unique_room_code()
+
         rules = [BusinessRule(not password, _("message_room_password_required"))]
         error = BusinessRule.run(rules)
 

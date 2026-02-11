@@ -1,0 +1,63 @@
+{% extends "layouts/room.layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block css_files %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/page-header.css' %}" />
+<link rel="stylesheet" href="{% static 'css/tasks.css' %}" />
+{% endblock %}
+
+{% block script_files %}
+{{ block.super }}
+<script src="{% static 'js/tasks.js' %}" defer></script>
+{% endblock %}
+
+{% block content_main %}
+
+{% trans "tasks_title" as title %}
+{% trans "tasks_subtitle" as subtitle %}
+{% trans "room_logo_text" as previous_label %}
+{% url "poker:room" room_id=room_id as previous_url %}
+
+{% include "partials/page-header.html" with title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
+
+<div class="content-container">
+  <div class="tasks-list">
+    {% for task in tasks %}
+    <div class="task-card" onclick="goToTaskDetail('{{ task.id }}')">
+      <div class="task-content">
+        <div class="task-header">
+          <h3 class="task-title">{{ task.title }}</h3>
+          {% if task.sp and is_admin or revealed %}
+            <span class="task-points">{{ task.sp }} SP</span>
+          {% endif %}
+        </div>
+        <p class="task-description">{{ task.description|truncatewords:25 }}</p>
+        
+        <div class="task-meta">
+          <span class="task-status status-{{ task.status }}">
+            {{ task.get_status_display }}
+          </span>
+          {% if task.created_at %}
+            <span class="task-date">
+              <i class="far fa-clock"></i>
+              {{ task.created_at|date:"d M Y" }}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="task-arrow">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-text">{% trans "tasks_empty_state" %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
