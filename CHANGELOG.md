@@ -2,11 +2,14 @@
 
 ## v1.1.0 - 11-02-2026
 
-Added tasks and task detail pages **@halilsenaydin**
+- Added tasks and task detail pages **@halilsenaydin**
+- Added admin panel
+    - Get data with excel file
+- Removed getting state from cache
 
 ## v1.0.1 - 14-01-2026
 
-Added logo and production errors fixed **@halilsenaydin**
+- Added logo and production errors fixed **@halilsenaydin**
 
 ## v1.0.0 - 14-01-2026
 

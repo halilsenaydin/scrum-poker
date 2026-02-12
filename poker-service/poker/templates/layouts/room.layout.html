@@ -8,11 +8,13 @@
 
 {% block css_files %}
 <link rel="stylesheet" href="{% static 'css/room.layout.css' %}" />
+<link rel="stylesheet" href="{% static 'css/modal.css' %}" />
 {% endblock %}
 
 {% block script_files %}
-<script src="{% static 'js/participant.js' %}" defer></script>
 <script src="{% static 'js/room.layout.js' %}" defer></script>
+<script src="{% static 'js/participant.js' %}" defer></script>
+
 {% endblock %}
 
 {% block content %}
@@ -20,6 +22,9 @@
 <div id="toast" class="message toast">
   <span id="toast-text"></span>
 </div>
+
+{% include "partials/modal.html" %}
+
 <div class="container" id="room-container" data-room-id="{{ room_id }}">
   <nav class="top-nav">
     <div class="nav-left">

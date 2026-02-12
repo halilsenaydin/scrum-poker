@@ -11,4 +11,5 @@ urlpatterns = [
     path("room/<str:room_id>/tasks/", views.TaskView.as_view(), name="tasks"),
     path("room/<str:room_id>/tasks/<str:task_id>/", views.TaskDetailView.as_view(), name="task_detail"),
     path('set-language/', views.set_language, name='set_language'),
+    path('site.webmanifest', views.manifest, name='manifest'),
 ]

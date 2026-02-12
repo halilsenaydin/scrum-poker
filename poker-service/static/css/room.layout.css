@@ -253,7 +253,7 @@ body::before {
   top: 20px;
   transform: translateX(100%);
   transition: opacity 0.3s, transform 0.3s;
-  z-index: 1000;
+  z-index: 1002;
   width: unset !important;
 }
 
@@ -501,6 +501,12 @@ body::before {
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.action-btn.small {
+  padding: 12px;
+  font-size: 12px;
+}
+
 
 .action-btn::before {
   background: var(--white-02);

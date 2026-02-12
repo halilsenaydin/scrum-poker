@@ -1,9 +1,177 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 18:23+0000\n"
+"POT-Creation-Date: 2026-02-12 10:14+0000\n"
 "Language: tr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+
+#: poker/admin.py:14
+msgid "admin_room_fieldset_base_info_label"
+msgstr "Temel Bilgiler"
+
+#: poker/admin.py:17
+msgid "admin_room_fieldset_time_info_label"
+msgstr "Zaman Bilgileri"
+
+#: poker/admin.py:50
+msgid "admin_room_participant_label"
+msgstr "Katılımcı"
+
+#: poker/admin.py:57
+msgid "admin_room_task_label"
+msgstr "Task"
+
+#: poker/admin.py:64
+msgid "admin_room_action_revealed"
+msgstr "odadaki oylar açıldı."
+
+#: poker/admin.py:65
+msgid "admin_room_action_reveal_votes"
+msgstr "Seçili odalardaki oyları aç"
+
+#: poker/admin.py:70
+msgid "admin_room_action_reset"
+msgstr "odadaki oylar sıfırlandı."
+
+#: poker/admin.py:71
+msgid "admin_room_action_reset_votes"
+msgstr "Seçili odalardaki oyları sıfırla"
+
+#: poker/admin.py:75
+msgid "admin_room_action_deactivate"
+msgstr "oda deaktif edildi."
+
+#: poker/admin.py:76
+msgid "admin_room_action_deactivate_rooms"
+msgstr "Seçili odaları deaktif et"
+
+#: poker/admin.py:87
+msgid "admin_participant_fieldset_base_info_label"
+msgstr "Temel Bilgiler"
+
+#: poker/admin.py:97
+msgid "admin_participant_room_code_label"
+msgstr "Oda Kodu"
+
+#: poker/admin.py:105
+msgid "admin_participant_vote_count_label"
+msgstr "Oy Sayısı"
+
+#: poker/admin.py:116
+msgid "admin_task_fieldset_base_info_label"
+msgstr "Temel Bilgiler"
+
+#: poker/admin.py:119
+msgid "admin_task_fieldset_estimate_info_label"
+msgstr "Tahmin Bilgileri"
+
+#: poker/admin.py:122
+msgid "admin_task_fieldset_time_info_label"
+msgstr "Zaman Bilgileri"
+
+#: poker/admin.py:126
+msgid "admin_task_fieldset_technical_info_label"
+msgstr "Teknik Bilgiler"
+
+#: poker/admin.py:134
+msgid "admin_task_room_code_label"
+msgstr "Oda Kodu"
+
+#: poker/admin.py:149
+msgid "admin_task_vote_count_label"
+msgstr "Oy Durumu"
+
+#: poker/admin.py:170
+msgid "admin_task_consensus_label"
+msgstr "Uzlaşma"
+
+#: poker/admin.py:174
+msgid "admin_task_metrics_no_votes"
+msgstr "Henüz oy yok"
+
+#: poker/admin.py:179
+msgid "admin_task_metrics_total_votes"
+msgstr "Toplam Oy"
+
+#: poker/admin.py:180
+msgid "admin_task_metrics_average"
+msgstr "Ortalama"
+
+#: poker/admin.py:181
+msgid "admin_task_metrics_median"
+msgstr "Medyan"
+
+#: poker/admin.py:182
+msgid "admin_task_metrics_min"
+msgstr "Minimum"
+
+#: poker/admin.py:183
+msgid "admin_task_metrics_max"
+msgstr "Maksimum"
+
+#: poker/admin.py:184
+msgid "admin_task_metrics_std_dev"
+msgstr "Std. Sapma"
+
+#: poker/admin.py:185
+msgid "admin_task_metrics_consensus_score"
+msgstr "Uzlaşma Skoru"
+
+#: poker/admin.py:194
+msgid "admin_task_metrics_distribution"
+msgstr "Dağılım"
+
+#: poker/admin.py:196
+msgid "admin_task_metrics_vote"
+msgstr "oy"
+
+#: poker/admin.py:201
+msgid "admin_task_metrics_display_label"
+msgstr "Metrik Özeti"
+
+#: poker/admin.py:209
+msgid "admin_task_recalculated_metrics"
+msgstr "task için metrikler yeniden hesaplandı."
+
+#: poker/admin.py:210
+msgid "admin_task_action_recalculate_metrics"
+msgstr "Metrikleri yeniden hesapla"
+
+#: poker/admin.py:215
+msgid "admin_task_reset_task_votes"
+msgstr "görevlerin oyları sıfırlandı."
+
+#: poker/admin.py:216
+msgid "admin_task_action_reset_task_votes"
+msgstr "Seçili görevlerin oylarını sıfırla"
+
+#: poker/admin.py:226
+msgid "admin_task_vote_fieldset_vote_info_label"
+msgstr "Oy Bilgileri"
+
+#: poker/admin.py:229
+msgid "admin_task_vote_fieldset_time_info_label"
+msgstr "Zaman Bilgileri"
+
+#: poker/admin.py:237
+msgid "admin_task_vote_participant_name_label"
+msgstr "Katılımcı"
+
+#: poker/admin.py:242
+msgid "admin_task_vote_task_title_label"
+msgstr "Task"
+
+#: poker/admin.py:247
+msgid "admin_task_vote_numeric_vote"
+msgstr "Sayısal"
+
+#: poker/admin.py:248
+msgid "admin_task_vote_custom_vote"
+msgstr "Özel"
+
+#: poker/admin.py:249
+msgid "admin_task_vote_is_numeric_vote_label"
+msgstr "Oy Tipi"
 
 #: poker/decorators.py:12
 msgid "message_only_admin_can_perform_action"
@@ -12,6 +180,15 @@ msgstr "Sadece admin işlem yapabilir."
 #: poker/decorators.py:25
 msgid "message_voting_is_closed"
 msgstr "Aktif oylama devam etmemektedir."
+
+#: poker/decorators.py:39 poker/services.py:191 poker/views.py:145
+#: poker/views.py:172 poker/views.py:212 poker/views.py:367 poker/views.py:436
+msgid "message_room_not_found"
+msgstr "Oda bulunamadı. Lütfen room ID ve şifreyi kontrol edin."
+
+#: poker/decorators.py:48
+msgid "message_room_access_denied"
+msgstr "Odaya giriş için geçersiz bir şifre girdiniz veya yetkiniz yok"
 
 #: poker/models.py:22
 msgid "model_room_name_verbose"
@@ -35,7 +212,7 @@ msgstr "Oda Şifresi"
 
 #: poker/models.py:37
 msgid "model_room_room_password_help_text"
-msgstr "Oda için isteğe bağlı şifre."
+msgstr "Oda için şifre."
 
 #: poker/models.py:41
 msgid "model_room_revealed_verbose"
@@ -257,11 +434,6 @@ msgstr "Oda başarıyla oluşturuldu! Room ID: %(room_id)s"
 msgid "message_fill_all_fields"
 msgstr "Lütfen tüm alanları doldurun."
 
-#: poker/services.py:191 poker/views.py:145 poker/views.py:172
-#: poker/views.py:212 poker/views.py:367 poker/views.py:436
-msgid "message_room_not_found"
-msgstr "Oda bulunamadı. Lütfen room ID ve şifreyi kontrol edin."
-
 #: poker/services.py:193
 msgid "message_wrong_password"
 msgstr "Şifre hatalı. Lütfen tekrar deneyin."
@@ -335,21 +507,21 @@ msgstr "Oda Oluştur"
 msgid "room_page_title %(room)s"
 msgstr "Scrum Poker - Oda %(room)s"
 
-#: poker/templates/layouts/room.layout.html:27 poker/templates/room.html:37
+#: poker/templates/layouts/room.layout.html:27 poker/templates/room.html:38
 #: poker/templates/tasks.html:20
 msgid "room_logo_text"
 msgstr "Scrum Poker"
 
-#: poker/templates/layouts/room.layout.html:29 poker/templates/room.html:39
+#: poker/templates/layouts/room.layout.html:29 poker/templates/room.html:40
 msgid "room_copy_url"
 msgstr "Oda URL'i kopyalandı"
 
-#: poker/templates/layouts/room.layout.html:58 poker/templates/room.html:68
+#: poker/templates/layouts/room.layout.html:58 poker/templates/room.html:69
 msgid "room_participants_header"
 msgstr "Katılımcılar"
 
 #: poker/templates/layouts/room.layout.html:60
-#: poker/templates/layouts/room.layout.html:61 poker/templates/room.html:70
+#: poker/templates/layouts/room.layout.html:61 poker/templates/room.html:71
 msgid "participant"
 msgstr "katılımcı"
 
@@ -357,23 +529,23 @@ msgstr "katılımcı"
 msgid "web_title"
 msgstr ""
 
-#: poker/templates/partials/metrics.html:5 poker/templates/room.html:116
+#: poker/templates/partials/metrics.html:5 poker/templates/room.html:117
 msgid "room_scrum_poker_results_title"
 msgstr "Scrum Poker Sonuçları"
 
-#: poker/templates/partials/metrics.html:10 poker/templates/room.html:121
+#: poker/templates/partials/metrics.html:10 poker/templates/room.html:122
 msgid "room_metric_average"
 msgstr "Ortalama"
 
-#: poker/templates/partials/metrics.html:15 poker/templates/room.html:126
+#: poker/templates/partials/metrics.html:15 poker/templates/room.html:127
 msgid "room_metric_median"
 msgstr "Median"
 
-#: poker/templates/partials/metrics.html:20 poker/templates/room.html:131
+#: poker/templates/partials/metrics.html:20 poker/templates/room.html:132
 msgid "room_metric_min"
 msgstr "Min"
 
-#: poker/templates/partials/metrics.html:25 poker/templates/room.html:136
+#: poker/templates/partials/metrics.html:25 poker/templates/room.html:137
 msgid "room_metric_max"
 msgstr "Max"
 
@@ -385,15 +557,15 @@ msgstr "Standart Sapma"
 msgid "room_metric_consensus_score"
 msgstr "Uzlaşma Skoru"
 
-#: poker/templates/partials/metrics.html:42 poker/templates/room.html:143
+#: poker/templates/partials/metrics.html:42 poker/templates/room.html:144
 msgid "room_metric_modes"
 msgstr "En Çok Verilen Oy"
 
-#: poker/templates/partials/metrics.html:51 poker/templates/room.html:148
+#: poker/templates/partials/metrics.html:51 poker/templates/room.html:149
 msgid "room_metric_distribution"
 msgstr "Oy Dağılımı"
 
-#: poker/templates/partials/metrics.html:64 poker/templates/room.html:155
+#: poker/templates/partials/metrics.html:64 poker/templates/room.html:156
 msgid "room_ask_gpt_button"
 msgstr "ChatGPT'ye Sor"
 
@@ -403,26 +575,26 @@ msgid "room_current_participant_badge_text"
 msgstr "Sen"
 
 #: poker/templates/partials/participants.html:4
-#: poker/templates/partials/participants.html:16 poker/templates/room.html:73
-#: poker/templates/room.html:78
+#: poker/templates/partials/participants.html:16 poker/templates/room.html:74
+#: poker/templates/room.html:79
 msgid "room_no_participants"
 msgstr "Henüz katılımcı yok"
 
-#: poker/templates/partials/participants.html:5 poker/templates/room.html:74
+#: poker/templates/partials/participants.html:5 poker/templates/room.html:75
 msgid "room_reset_votes_confirm"
 msgstr "Tüm oyları sıfırlamak istiyor musunuz?"
 
-#: poker/templates/partials/participants.html:6 poker/templates/room.html:75
+#: poker/templates/partials/participants.html:6 poker/templates/room.html:76
 msgid "room_remove_participant_confirm"
 msgstr "Kullanıcıyı kaldırmak istiyor musunuz?"
 
 #: poker/templates/partials/poker-cards.html:5 poker/templates/room.html:24
-#: poker/templates/room.html:91
+#: poker/templates/room.html:92
 msgid "room_select_point_card"
 msgstr "Puan Kartını Seçin"
 
 #: poker/templates/partials/poker-cards.html:6 poker/templates/room.html:25
-#: poker/templates/room.html:92
+#: poker/templates/room.html:93
 msgid "room_point_card_help"
 msgstr "Kartınızı seçmek için üzerine tıklayın"
 
@@ -431,11 +603,11 @@ msgstr "Kartınızı seçmek için üzerine tıklayın"
 msgid "tasks_title"
 msgstr "Görevler"
 
-#: poker/templates/room.html:106
+#: poker/templates/room.html:107
 msgid "room_show_results_button"
 msgstr "Sonuçları Göster"
 
-#: poker/templates/room.html:109
+#: poker/templates/room.html:110
 msgid "room_reset_votes_button"
 msgstr "Oyları Sıfırla"
 
@@ -455,23 +627,23 @@ msgstr "Açıklama"
 msgid "task_detail_created_label"
 msgstr "Oluşturulma"
 
-#: poker/templates/task_detail.html:54
+#: poker/templates/task_detail.html:55
 msgid "task_detail_current_sp_label"
 msgstr "Mevcut Tahmin"
 
-#: poker/templates/task_detail.html:64
+#: poker/templates/task_detail.html:65
 msgid "task_detail_estimate_title"
 msgstr "Story Point Tahmini"
 
-#: poker/templates/task_detail.html:65
+#: poker/templates/task_detail.html:66
 msgid "task_detail_estimate_help"
 msgstr "Task için yeni bir tahmin belirleyin veya Planning Poker başlatın"
 
-#: poker/templates/task_detail.html:68
+#: poker/templates/task_detail.html:69
 msgid "task_detail_sp_label"
 msgstr "Story Points"
 
-#: poker/templates/task_detail.html:82
+#: poker/templates/task_detail.html:83
 msgid "task_detail_save_estimation"
 msgstr "Tahmini Kaydet"
 

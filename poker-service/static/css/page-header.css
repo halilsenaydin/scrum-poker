@@ -78,14 +78,3 @@
     background: linear-gradient(135deg, var(--red-opacity-30) 0%, var(--red-opacity-20) 100%);
     border-color: var(--red-opacity-40);
 }
-
-.room-code-small {
-    background: var(--black-03);
-    border-radius: 6px;
-    color: var(--red);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-}

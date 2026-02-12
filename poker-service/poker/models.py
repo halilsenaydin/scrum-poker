@@ -2,11 +2,13 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator
+from django.contrib.auth.hashers import make_password, check_password
 import uuid
 import random
 import string
 import statistics
 from .constants import PokerConstant
+from .services import RoomService
 
 def generate_room_code():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
@@ -31,8 +33,6 @@ class Room(models.Model):
     )
     room_password = models.CharField(
         max_length=255,
-        blank=True,
-        null=True,
         verbose_name=_("model_room_room_password_verbose"),
         help_text=_("model_room_room_password_help_text"),
     )
@@ -71,28 +71,49 @@ class Room(models.Model):
             while Room.objects.filter(room_code=self.room_code).exists():
                 self.room_code = generate_room_code()
 
+            self.sync_create_to_firebase(self.room_password)
+            self.room_password = self.hash_password(self.room_password)
+
         super().save(*args, **kwargs)
     
     def reset_votes(self):
-        for task in self.tasks.filter(is_active=True):
-            task.votes.all().delete()
-            task.sp = None
-            task.metrics = {}
-            task.save()
+        active_tasks = self.tasks.filter(is_active=True)
+
+        TaskVote.objects.filter(task__in=active_tasks).delete()
+
+        active_tasks.update(sp=None, metrics={})
 
         self.revealed = False
-        self.save()
+
+        self.save(update_fields=["revealed"])
     
     def reveal_votes(self):
         self.revealed = True
-        self.save()
+
+        self.save(update_fields=["revealed"])
     
     def get_active_participants(self):
         return self.participants.filter(is_active=True)
     
     def get_participant_count(self):
         return self.get_active_participants().count()
+    
+    def hash_password(self, raw_password: str) -> str:
+        return make_password(raw_password)
 
+    def set_password(self, raw_password: str):
+        self.room_password = self.hash_password(raw_password)
+    
+        self.save(update_fields=["room_password"])
+
+    def check_password(self, raw_password: str) -> bool:
+        return check_password(raw_password, self.room_password)
+
+    def sync_create_to_firebase(self, raw_password: str):
+        room_service = RoomService()
+        room_code = self.room_code
+        
+        room_service.create_room(room_code=room_code, password=raw_password)
 
 class Participant(models.Model):
     id = models.AutoField(primary_key=True)

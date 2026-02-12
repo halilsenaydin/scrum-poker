@@ -23,7 +23,7 @@
 {% trans "tasks_title" as previous_label %}
 {% url "poker:tasks" room_id=room_id as previous_url %}
 
-{% include "partials/page-header.html" with title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
+{% include "partials/page-header.html" with room_name=room_name title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
 
 {% if not revealed %}
   {% include "partials/poker-cards.html" %}

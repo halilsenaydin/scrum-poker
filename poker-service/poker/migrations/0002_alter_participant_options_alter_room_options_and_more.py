@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='room',
             name='room_password',
-            field=models.CharField(blank=True, help_text='model_room_room_password_help_text', max_length=255, null=True, verbose_name='model_room_room_password_verbose'),
+            field=models.CharField(help_text='model_room_room_password_help_text', max_length=255, verbose_name='model_room_room_password_verbose'),
         ),
         migrations.AlterField(
             model_name='task',

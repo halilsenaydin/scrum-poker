@@ -14,16 +14,24 @@ from django.views.generic import TemplateView
 from .constants import PokerConstant
 from .models import Room, Participant, TaskVote, Task
 from .services import RoomService, ResultUtil
-from .decorators import admin_required, room_not_revealed_required
+from .decorators import admin_required, room_not_revealed_required, room_token_required
 
 class BaseView(View):
+    # Page Urls
     HOME_URL = "poker:home"
     ROOM_URL = "poker:room"
-    TASKS_URL = "poker:tasks"
     TASK_DETAIL_URL = "poker:task_detail"
+    TASKS_URL = "poker:tasks"
+
+    # Cookie Keys
+    COOKIE_AUTHENTICATION_KEY = "authentication_key"
+    COOKIE_ROOM_STATE = "room_state"
+    COOKIE_TOKEN = "token"
+
+    room_service = RoomService()
 
     def _get_task_from_cookies(self, context):
-        room_state_raw = self.request.COOKIES.get("room_state")
+        room_state_raw = self.request.COOKIES.get(self.COOKIE_ROOM_STATE)
         task_id = context.get("task_id")
 
         if not room_state_raw or not task_id:
@@ -44,7 +52,7 @@ class BaseView(View):
         return task_data.get("vote") if task_data else None
 
     def _get_authentication_key_from_cookies(self):
-        authentication_key = self.request.COOKIES.get("authentication_key")
+        authentication_key = self.request.COOKIES.get(self.COOKIE_AUTHENTICATION_KEY)
 
         return authentication_key
 
@@ -67,7 +75,6 @@ class RoomsHomeView(BaseTemplateView):
         "join_room": "handle_join_room",
         "create_room": "handle_create_room",
     }
-    room_service = RoomService()
 
     def post(self, request, *args, **kwargs):
         """
@@ -106,8 +113,17 @@ class RoomsHomeView(BaseTemplateView):
             messages.error(request, result.message)
 
             return redirect(self.HOME_URL)
+        
+        response = redirect(self.ROOM_URL, room_id=room_id)
+        response.set_cookie(
+            self.COOKIE_TOKEN, 
+            self.room_service.generate_token(room_id, result.data.get('password')),
+            httponly=True,
+            samesite="Lax",
+            secure=not settings.DEBUG
+        )
 
-        return redirect(self.ROOM_URL, room_id=room_id)
+        return response
 
     def handle_create_room(self, request):
         """
@@ -134,12 +150,12 @@ class RoomsHomeView(BaseTemplateView):
 
 class RoomView(BaseTemplateView):
     template_name = "room.html"
-    room_service = RoomService()
 
     def dispatch(self, request, *args, **kwargs):
         self.room_id = kwargs.get("room_id")
         self.firebase_room = self.room_service.get_room(self.room_id)
-        self.has_room = Room.objects.filter(room_code=self.room_id).exists()
+        self.room = Room.objects.filter(room_code=self.room_id).first()
+        self.has_room = self.room is not None
 
         if self.firebase_room is None:
             messages.error(request, _('message_room_not_found'))
@@ -153,12 +169,17 @@ class RoomView(BaseTemplateView):
 
         context.update({
             "room_id": self.room_id,
+            "room_name": self.room.name if self.has_room else None,
             "room_": self.firebase_room,
             "has_room": self.has_room,
             "points": PokerConstant.POINTS,
         })
 
         return context
+    
+    @room_token_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 class TaskView(BaseTemplateView):
     template_name = "tasks.html"
@@ -198,6 +219,10 @@ class TaskView(BaseTemplateView):
         })
 
         return context
+
+    @room_token_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 @method_decorator(csrf_protect, name="dispatch")
 class TaskDetailView(BaseTemplateView):
@@ -261,7 +286,7 @@ class TaskDetailView(BaseTemplateView):
 
     @room_not_revealed_required
     def post(self, request, *args, **kwargs):
-        auth_key = request.COOKIES.get("authentication_key")
+        auth_key = request.COOKIES.get(self.COOKIE_AUTHENTICATION_KEY)
 
         if not auth_key:
             result = ResultUtil.error_result(_('message_auth_key_not_found')).__dict__
@@ -274,7 +299,7 @@ class TaskDetailView(BaseTemplateView):
         vote = data.get("vote")
 
         # Current room state
-        room_state_raw = request.COOKIES.get("room_state")
+        room_state_raw = request.COOKIES.get(self.COOKIE_ROOM_STATE)
 
         if room_state_raw:
             try:
@@ -301,7 +326,7 @@ class TaskDetailView(BaseTemplateView):
         }).__dict__
         response = JsonResponse(result)
         response.set_cookie(
-            "room_state",
+            self.COOKIE_ROOM_STATE,
             json.dumps(room_state),
             httponly=True,
             samesite="Lax",
@@ -357,6 +382,10 @@ class TaskDetailView(BaseTemplateView):
 
         return JsonResponse(result)
 
+    @room_token_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
 @method_decorator(csrf_protect, name="dispatch")
 class AddParticipantView(BaseView):
     def dispatch(self, request, *args, **kwargs):
@@ -390,18 +419,25 @@ class AddParticipantView(BaseView):
         ).exists()
         authentication_key = self._get_authentication_key_from_cookies()
 
-        if exists and authentication_key:
-            result = ResultUtil.success_result(
-                None,
-                {'no_need_add_participant': True}
-            ).__dict__
-
-            return JsonResponse(result)
-
         if exists:
+            user_exists = Participant.objects.filter(
+                room=self.room,
+                name=name,
+                authentication_key=authentication_key
+            ).exists()
+
+            if user_exists:
+                result = ResultUtil.success_result(
+                    None,
+                    {'no_need_add_participant': True}
+                ).__dict__
+
+                return JsonResponse(result)
+
             result = ResultUtil.error_result(
                 _("message_participant_already_exists")
             ).__dict__
+
             return JsonResponse(result, status=409)
 
         create_data = {
@@ -417,7 +453,7 @@ class AddParticipantView(BaseView):
         result = ResultUtil.success_result(_('message_room_join_success'), model_to_dict(participant, fields=["id", "name", "is_active"])).__dict__
         response = JsonResponse(result)
         response.set_cookie(
-            'authentication_key', 
+            self.COOKIE_AUTHENTICATION_KEY, 
             participant.authentication_key,
             httponly=True,
             samesite="Lax",
@@ -501,3 +537,6 @@ def set_language(request):
     translation.activate(lang)
 
     return response
+
+def manifest(request):
+    return render(request, 'manifests/site.webmanifest', content_type='application/manifest+json')

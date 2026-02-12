@@ -23,7 +23,7 @@ const handleRemoveUserClick = (e, roomCode) => {
       .then((res) => res.json())
       .then((data) => {
         showToast(data);
-
+        
         if (data.status) {
           const participant = document.querySelector(
             `.participant-card[data-name="${name}"]`,

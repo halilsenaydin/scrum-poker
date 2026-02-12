@@ -1,3 +1,5 @@
+const KEY_SCRUM_POKER_USER_NAME = "scrumPoker_userName";
+
 /**
  * @description Retrieves the value of a cookie by its name.
  * @param {string} name - The name of the cookie to retrieve
@@ -78,8 +80,11 @@ const handleRoomInfoClick = (roomCode) => {
         message: copiedText,
       });
     })
-    .catch((err) => {
-      console.error("Copied failed:", err);
+    .catch(() => {
+      showToast({
+        status: false,
+        message: 'Copied failed'
+      })
     });
 };
 
@@ -88,8 +93,6 @@ const handleRoomInfoClick = (roomCode) => {
  * @param name Full name
  */
 const getInitials = (name) => {
-  console.log(name);
-  
   const val = name
     .split(" ")
     .map((n) => n[0])
@@ -180,18 +183,38 @@ const renderEmptyStateIfNeeded = () => {
 }
 
 /**
- * @description Initializes the username for the current user.
+ * @description Opens the join room modal.
  */
-const initUserName = () => {
-  const key = "scrumPoker_userName";
-  let name = localStorage.getItem(key);
+const openModal = () => {
+    document.getElementById('modal').classList.add('active');
+}
 
-  if (!name) {
-    name =
-      prompt("Lütfen adınızı girin:") ||
-      `Anonim_${crypto.randomUUID().slice(0, 8)}`;
-  }
+/**
+ * @description Closes the join room modal.
+ */
+const closeModal = () => {
+    document.getElementById('modal').classList.remove('active');
+}
 
+/**
+ * @description Handles the join room form submission.
+ * @param {SubmitEvent} e Form submit event
+ */
+const handleJoinRoomButtonClick = (e) => {
+  e.preventDefault();
+
+  const form = e.target;  
+  const formData = new FormData(form);
+  const name = formData.get("username");
+
+  saveParticipant(name);
+}
+
+/**
+ * @description Saves the participant information and initiates the room join process.
+ * @param {string} name Participant name entered by the user
+ */
+const saveParticipant = (name) => {
   const roomContainer = document.getElementById("room-container");
   const roomCode = roomContainer.dataset.roomId;
 
@@ -210,7 +233,7 @@ const initUserName = () => {
       showToast(data);
 
       if (data.status && !data.data?.no_need_add_participant) {
-        localStorage.setItem(key, name);
+        localStorage.setItem(KEY_SCRUM_POKER_USER_NAME, name);
 
         addParticipant(data.data);
 
@@ -229,8 +252,27 @@ const initUserName = () => {
             emptyState.remove();
           }
         }
+
+        closeModal();
+      } else if (!data.status) {
+        localStorage.removeItem(KEY_SCRUM_POKER_USER_NAME);
+
+        initUserName();
       }
     });
+}
+
+/**
+ * @description Initializes the username for the current user.
+ */
+const initUserName = () => {
+  let name = localStorage.getItem(KEY_SCRUM_POKER_USER_NAME);
+
+  if (!name) {
+    openModal();
+  } else {
+    saveParticipant(name);
+  }
 };
 
 initUserName();

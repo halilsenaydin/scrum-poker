@@ -107,17 +107,12 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     async def get_room_state(self):
         """
-        Retrieves the current state of the room from cache or database.
+        Retrieves the current state of the room from database.
 
         Returns:
             dict: Current state of the room.
         """
-        state = cache.get(self.room_cache_key())
-
-        if state is None:
-            state = await self.get_room_data()
-
-            await self.save_state(state)
+        state = await self.get_room_data()
 
         return state
 

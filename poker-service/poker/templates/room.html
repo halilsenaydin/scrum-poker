@@ -83,7 +83,7 @@
 
     <main class="content-area">
       {% if has_room %}
-        {% include "partials/page-header.html" with title=title subtitle=subtitle previous_label=previous_label previous_url=previous_url %}
+        {% include "partials/page-header.html" with room_name=room_name title=title subtitle=subtitle previous_label=previous_label previous_url=previous_url %}
       {% endif %}
 
       <div class="cards-container">

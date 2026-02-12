@@ -5,6 +5,7 @@ from typing import Optional
 from firebase_admin import credentials, firestore, initialize_app
 from django.conf import settings
 from django.utils.translation import gettext as _
+from django.contrib.auth.hashers import check_password, make_password
 
 
 class FirestoreClient:
@@ -128,6 +129,9 @@ class RoomService:
         self.db = FirestoreClient.get_client()
         self.rooms = self.db.collection("rooms")
 
+    def generate_token(self, room_code: str, room_password: str) -> str:
+        return f"{room_code}:{room_password}"
+
     def create_room(self, password: str, room_code: Optional[str] = None) -> Result:
         """
         Create a new poker room with the given password
@@ -147,7 +151,8 @@ class RoomService:
         if error:
             return ResultUtil.error_result(error)
 
-        data = self.create_room_record(room_code, password)
+        room_password = make_password(password)
+        data = self.create_room_record(room_code, room_password)
 
         return ResultUtil.success_result(_("message_room_created_success") % {"room_id": room_code}, data)
 
@@ -190,7 +195,7 @@ class RoomService:
             BusinessRule(not room_code or not password, _("message_fill_all_fields")),
             BusinessRule(not room, _("message_room_not_found")),
             BusinessRule(
-                room and room.get("password") != password, _("message_wrong_password")
+                room and not check_password(password, room.get("password")), _("message_wrong_password")
             ),
             BusinessRule(
                 room and not room.get("is_open", True), _("message_room_closed")
