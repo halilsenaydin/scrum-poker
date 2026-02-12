@@ -136,12 +136,7 @@ const createParticipantElement = (p) => {
   currentParticipantBadge.className = "participant-badge";
   currentParticipantBadge.textContent = participantList.dataset.currentParticipantBadgeText;
 
-  const voteDisplay = document.createElement("div");
-
-  voteDisplay.className = "vote-display";
-  voteDisplay.textContent = "-";
-
-  card.append(info, currentParticipantBadge, voteDisplay);
+  card.append(info, currentParticipantBadge);
 
   return card;
 };

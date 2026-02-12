@@ -208,8 +208,10 @@ class TaskView(BaseTemplateView):
         )
         user = self.request.user
         is_admin = user.is_authenticated and user.is_staff
+        authentication_key = self._get_authentication_key_from_cookies()
 
         context.update({
+            "authentication_key": authentication_key,
             "is_admin": is_admin,
             "tasks": tasks,
             "room_id": self.room_id,
