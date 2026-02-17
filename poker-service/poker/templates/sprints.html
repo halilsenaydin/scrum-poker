@@ -1,0 +1,55 @@
+{% extends "layouts/room.layout.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block css_files %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/page-header.css' %}" />
+<link rel="stylesheet" href="{% static 'css/sprints.css' %}" />
+{% endblock %}
+
+{% block script_files %}
+{{ block.super }}
+<script src="{% static 'js/sprints.js' %}" defer></script>
+{% endblock %}
+
+{% block content_main %}
+
+{% trans "sprints_title" as title %}
+{% trans "sprints_subtitle" as subtitle %}
+{% trans "room_logo_text" as previous_label %}
+{% url "poker:room" room_id=room_id as previous_url %}
+
+{% include "partials/page-header.html" with room_name=room_name title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
+
+<div class="content-container">
+  <div class="sprints-list">
+    {% for sprint in sprints %}
+    <div class="sprint-card" onclick="goToTask('{{ sprint.id }}')">
+      <div class="sprint-content">
+        <div class="sprint-header">
+          <h3 class="sprint-title">{{ sprint.name }}</h3>
+        </div>
+        <div class="sprint-meta">
+          {% if sprint.created_at %}
+            <span class="sprint-date">
+              <i class="far fa-clock"></i>
+              {{ sprint.created_at|date:"d M Y" }}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="sprint-arrow">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-text">{% trans "sprints_empty_state" %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

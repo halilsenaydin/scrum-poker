@@ -17,8 +17,8 @@
 
 {% trans "tasks_title" as title %}
 {% trans "tasks_subtitle" as subtitle %}
-{% trans "room_logo_text" as previous_label %}
-{% url "poker:room" room_id=room_id as previous_url %}
+{% trans "sprints_title" as previous_label %}
+{% url "poker:sprints" room_id=room_id sprint_id=sprint_id as previous_url %}
 
 {% include "partials/page-header.html" with room_name=room_name title=title subtitle=subtitle previous_label=previous_label current_label=title previous_url=previous_url %}
 
@@ -29,7 +29,7 @@
       <div class="task-content">
         <div class="task-header">
           <h3 class="task-title">{{ task.title }}</h3>
-          {% if task.sp and is_admin or revealed %}
+          {% if task.sp and revealed %}
             <span class="task-points">{{ task.sp }} SP</span>
           {% endif %}
         </div>

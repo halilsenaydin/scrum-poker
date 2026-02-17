@@ -1,5 +1,3 @@
-const KEY_SCRUM_POKER_USER_NAME = "scrumPoker_userName";
-
 /**
  * @description Retrieves the value of a cookie by its name.
  * @param {string} name - The name of the cookie to retrieve
@@ -112,7 +110,7 @@ const createParticipantElement = (p) => {
 
   card.id = "current-participant";
   card.className = "participant-card";
-  card.dataset.name = p.name;
+  card.dataset.name = p.username;
 
   const info = document.createElement("div");
 
@@ -121,12 +119,12 @@ const createParticipantElement = (p) => {
   const avatar = document.createElement("div");
 
   avatar.className = "avatar";
-  avatar.textContent = getInitials(p.name);
+  avatar.textContent = getInitials(p.username);
 
   const name = document.createElement("span");
 
   name.className = "participant-name";
-  name.textContent = p.name;
+  name.textContent = p.username;
 
   info.append(avatar, name);
 
@@ -207,9 +205,8 @@ const handleJoinRoomButtonClick = (e) => {
 
 /**
  * @description Saves the participant information and initiates the room join process.
- * @param {string} name Participant name entered by the user
  */
-const saveParticipant = (name) => {
+const saveParticipant = () => {
   const roomContainer = document.getElementById("room-container");
   const roomCode = roomContainer.dataset.roomId;
 
@@ -218,18 +215,12 @@ const saveParticipant = (name) => {
     headers: {
       "Content-Type": "application/json",
       "X-CSRFToken": getCookie("csrftoken"),
-    },
-    body: JSON.stringify({
-      name: name,
-    }),
+    }
   })
     .then((res) => res.json())
     .then((data) => {
-      showToast(data);
-
       if (data.status && !data.data?.no_need_add_participant) {
-        localStorage.setItem(KEY_SCRUM_POKER_USER_NAME, name);
-
+        showToast(data);
         addParticipant(data.data);
 
         const participantCount =
@@ -247,27 +238,19 @@ const saveParticipant = (name) => {
             emptyState.remove();
           }
         }
-
-        closeModal();
       } else if (!data.status) {
-        localStorage.removeItem(KEY_SCRUM_POKER_USER_NAME);
+        showToast(data);
 
-        initUserName();
+        window.location.replace("/admin/");
       }
     });
 }
 
 /**
- * @description Initializes the username for the current user.
+ * @description Initializes the application
  */
-const initUserName = () => {
-  let name = localStorage.getItem(KEY_SCRUM_POKER_USER_NAME);
-
-  if (!name) {
-    openModal();
-  } else {
-    saveParticipant(name);
-  }
+const init = () => {
+  saveParticipant();
 };
 
-initUserName();
+init();

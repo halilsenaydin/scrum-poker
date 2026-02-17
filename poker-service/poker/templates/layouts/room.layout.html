@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      {% include "partials/participants.html" with revealed=revealed participants=participants is_admin=is_admin authentication_key=authentication_key room_id=room_id show_vote_display=show_vote_display only %}
+      {% include "partials/participants.html" with request=request revealed=revealed participants=participants is_admin=is_admin room_id=room_id show_vote_display=show_vote_display only %}
     </aside>
 
     <main class="content-area">

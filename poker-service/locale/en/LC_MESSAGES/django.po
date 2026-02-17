@@ -1,445 +1,584 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-12 10:13+0000\n"
+"POT-Creation-Date: 2026-02-17 18:43+0000\n"
 "Language: en\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: poker/admin.py:14
+#: poker/admin.py:218
 msgid "admin_room_fieldset_base_info_label"
-msgstr "Basic Info"
+msgstr "Basic Information"
 
-#: poker/admin.py:17
+#: poker/admin.py:221
+msgid "admin_room_fieldset_status_label"
+msgstr "Status"
+
+#: poker/admin.py:224
 msgid "admin_room_fieldset_time_info_label"
-msgstr "Time Info"
+msgstr "Time Information"
 
-#: poker/admin.py:50
-msgid "admin_room_participant_label"
-msgstr "Participant"
+#: poker/admin.py:265
+msgid "admin_room_sprint_count_active_text"
+msgstr "active"
 
-#: poker/admin.py:57
-msgid "admin_room_task_label"
-msgstr "Task"
+#: poker/admin.py:268
+msgid "admin_room_sprint_count_label"
+msgstr "Sprint Count"
 
-#: poker/admin.py:64
-msgid "admin_room_action_revealed"
-msgstr "votes revealed in room."
+#: poker/admin.py:281
+msgid "admin_room_participants_label"
+msgstr "Participants"
 
-#: poker/admin.py:65
-msgid "admin_room_action_reveal_votes"
-msgstr "Reveal votes in selected rooms"
+#: poker/admin.py:295
+msgid "admin_room_tasks_label"
+msgstr "Tasks"
 
-#: poker/admin.py:70
-msgid "admin_room_action_reset"
-msgstr "votes reset in room."
+#: poker/admin.py:310
+msgid "admin_room_votes_label"
+msgstr "Votes"
 
-#: poker/admin.py:71
-msgid "admin_room_action_reset_votes"
-msgstr "Reset votes in selected rooms"
+#: poker/admin.py:332
+msgid "admin_room_consensus_label"
+msgstr "Consensus"
 
-#: poker/admin.py:75
-msgid "admin_room_action_deactivate"
-msgstr "room deactivated."
+#: poker/admin.py:340
+msgid "admin_room_consensus_very_active_text"
+msgstr "Very Active"
 
-#: poker/admin.py:76
-msgid "admin_room_action_deactivate_rooms"
-msgstr "Deactivate selected rooms"
+#: poker/admin.py:342
+msgid "admin_room_consensus_active_text"
+msgstr "Active"
 
-#: poker/admin.py:87
+#: poker/admin.py:344
+msgid "admin_room_consensus_moderate_text"
+msgstr "Moderate"
+
+#: poker/admin.py:346
+msgid "admin_room_consensus_low_text"
+msgstr "Low"
+
+#: poker/admin.py:350
+msgid "admin_room_activity_label"
+msgstr "Activity"
+
+#: poker/admin.py:368
+msgid "admin_room_action_activate_rooms_label"
+msgstr "Activate rooms"
+
+#: poker/admin.py:374
+msgid "admin_room_action_deactivate_rooms_label"
+msgstr "Deactivate rooms"
+
+#: poker/admin.py:392
+msgid "admin_room_action_export_basic_excel_label"
+msgstr "Export Basic Data"
+
+#: poker/admin.py:410
+msgid "admin_room_action_export_advanced_analytics_label"
+msgstr "Export Advanced Analytics"
+
+#: poker/admin.py:428
+msgid "admin_room_action_export_full_analytics_with_charts_label"
+msgstr "Export Full Analytics"
+
+#: poker/admin.py:455
+msgid "admin_sprint_fieldset_base_info_label"
+msgstr "Basic Information"
+
+#: poker/admin.py:458
+msgid "admin_sprint_fieldset_status_label"
+msgstr "Status"
+
+#: poker/admin.py:461
+msgid "admin_sprint_fieldset_time_info_label"
+msgstr "Time Information"
+
+#: poker/admin.py:540
+msgid "admin_sprint_completion_label"
+msgstr "Progress"
+
+#: poker/admin.py:555
+msgid "admin_sprint_sp_label"
+msgstr "SP"
+
+#: poker/admin.py:574
+msgid "admin_sprint_consensus_label"
+msgstr "Consensus"
+
+#: poker/admin.py:587
+msgid "admin_sprint_action_activate_sprints_label"
+msgstr "Activate sprints"
+
+#: poker/admin.py:592
+msgid "admin_sprint_action_deactivate_sprints_label"
+msgstr "Deactivate sprints"
+
+#: poker/admin.py:603
+msgid "admin_sprint_action_reveal_all_votes_label"
+msgstr "Reveal votes"
+
+#: poker/admin.py:614
+msgid "admin_sprint_action_reset_all_votes_label"
+msgstr "Reset votes"
+
+#: poker/admin.py:629
+msgid "admin_sprint_action_export_basic_excel_label"
+msgstr "Export Basic Data"
+
+#: poker/admin.py:644
+msgid "admin_sprint_action_export_advanced_analytics_label"
+msgstr "Export Advanced Analytics"
+
+#: poker/admin.py:659
+msgid "admin_sprint_action_export_full_analytics_with_charts_label"
+msgstr "Export Full Analytics"
+
+#: poker/admin.py:668
 msgid "admin_participant_fieldset_base_info_label"
 msgstr "Basic Info"
 
-#: poker/admin.py:97
+#: poker/admin.py:685
 msgid "admin_participant_room_code_label"
 msgstr "Room Code"
 
-#: poker/admin.py:105
+#: poker/admin.py:693
 msgid "admin_participant_vote_count_label"
 msgstr "Vote Count"
 
-#: poker/admin.py:116
+#: poker/admin.py:703
 msgid "admin_task_fieldset_base_info_label"
 msgstr "Basic Info"
 
-#: poker/admin.py:119
+#: poker/admin.py:706
 msgid "admin_task_fieldset_estimate_info_label"
 msgstr "Estimate Info"
 
-#: poker/admin.py:122
+#: poker/admin.py:709
 msgid "admin_task_fieldset_time_info_label"
 msgstr "Time Info"
 
-#: poker/admin.py:126
+#: poker/admin.py:713
 msgid "admin_task_fieldset_technical_info_label"
 msgstr "Technical Info"
 
-#: poker/admin.py:134
+#: poker/admin.py:721
 msgid "admin_task_room_code_label"
 msgstr "Room Code"
 
-#: poker/admin.py:149
+#: poker/admin.py:736
 msgid "admin_task_vote_count_label"
 msgstr "Vote Status"
 
-#: poker/admin.py:170
+#: poker/admin.py:757
 msgid "admin_task_consensus_label"
 msgstr "Consensus"
 
-#: poker/admin.py:174
+#: poker/admin.py:761
 msgid "admin_task_metrics_no_votes"
 msgstr "No votes yet"
 
-#: poker/admin.py:179
+#: poker/admin.py:766
 msgid "admin_task_metrics_total_votes"
 msgstr "Total Votes"
 
-#: poker/admin.py:180
+#: poker/admin.py:767
 msgid "admin_task_metrics_average"
 msgstr "Average"
 
-#: poker/admin.py:181
+#: poker/admin.py:768
 msgid "admin_task_metrics_median"
 msgstr "Median"
 
-#: poker/admin.py:182
+#: poker/admin.py:769
 msgid "admin_task_metrics_min"
 msgstr "Minimum"
 
-#: poker/admin.py:183
+#: poker/admin.py:770
 msgid "admin_task_metrics_max"
 msgstr "Maximum"
 
-#: poker/admin.py:184
+#: poker/admin.py:771
 msgid "admin_task_metrics_std_dev"
 msgstr "Std. Dev."
 
-#: poker/admin.py:185
+#: poker/admin.py:772
 msgid "admin_task_metrics_consensus_score"
 msgstr "Consensus Score"
 
-#: poker/admin.py:194
+#: poker/admin.py:781
 msgid "admin_task_metrics_distribution"
 msgstr "Distribution"
 
-#: poker/admin.py:196
+#: poker/admin.py:783
 msgid "admin_task_metrics_vote"
 msgstr "vote"
 
-#: poker/admin.py:201
+#: poker/admin.py:788
 msgid "admin_task_metrics_display_label"
 msgstr "Metrics Summary"
 
-#: poker/admin.py:209
+#: poker/admin.py:796
 msgid "admin_task_recalculated_metrics"
 msgstr "metrics recalculated for task."
 
-#: poker/admin.py:210
+#: poker/admin.py:797
 msgid "admin_task_action_recalculate_metrics"
 msgstr "Recalculate Metrics"
 
-#: poker/admin.py:215
+#: poker/admin.py:802
 msgid "admin_task_reset_task_votes"
 msgstr "task votes reset."
 
-#: poker/admin.py:216
+#: poker/admin.py:803
 msgid "admin_task_action_reset_task_votes"
 msgstr "Reset votes of selected tasks"
 
-#: poker/admin.py:226
+#: poker/admin.py:813
 msgid "admin_task_vote_fieldset_vote_info_label"
 msgstr "Vote Info"
 
-#: poker/admin.py:229
+#: poker/admin.py:816
 msgid "admin_task_vote_fieldset_time_info_label"
 msgstr "Time Info"
 
-#: poker/admin.py:237
+#: poker/admin.py:825
 msgid "admin_task_vote_participant_name_label"
 msgstr "Participant"
 
-#: poker/admin.py:242
+#: poker/admin.py:831
 msgid "admin_task_vote_task_title_label"
 msgstr "Task"
 
-#: poker/admin.py:247
+#: poker/admin.py:836
 msgid "admin_task_vote_numeric_vote"
 msgstr "Numeric"
 
-#: poker/admin.py:248
+#: poker/admin.py:837
 msgid "admin_task_vote_custom_vote"
 msgstr "Custom"
 
-#: poker/admin.py:249
+#: poker/admin.py:838
 msgid "admin_task_vote_is_numeric_vote_label"
 msgstr "Vote Type"
 
-#: poker/decorators.py:12
+#: poker/decorators.py:14
 msgid "message_only_admin_can_perform_action"
 msgstr "Only the admin can perform this action."
 
-#: poker/decorators.py:25
+#: poker/decorators.py:27
 msgid "message_voting_is_closed"
 msgstr "Active voting is not currently underway."
 
-#: poker/decorators.py:39 poker/services.py:191 poker/views.py:145
-#: poker/views.py:172 poker/views.py:212 poker/views.py:367 poker/views.py:436
+#: poker/decorators.py:43 poker/services.py:198 poker/views.py:133
+#: poker/views.py:165 poker/views.py:209 poker/views.py:261 poker/views.py:384
+#: poker/views.py:430
 msgid "message_room_not_found"
 msgstr "Room not found. Please check the room ID and password."
 
-#: poker/decorators.py:48
+#: poker/decorators.py:52
 msgid "message_room_access_denied"
 msgstr ""
 "Invalid password entered or you do not have permission to access this room"
 
-#: poker/models.py:22
+#: poker/decorators.py:66 poker/decorators.py:70
+msgid "message_auth_key_not_found"
+msgstr "Authentication key not found"
+
+#: poker/models.py:28
 msgid "model_room_name_verbose"
 msgstr "Room Name"
 
-#: poker/models.py:23
+#: poker/models.py:29
 msgid "model_room_name_help_text"
 msgstr "Enter the display name of the room."
 
-#: poker/models.py:29
+#: poker/models.py:35
 msgid "model_room_room_code_verbose"
 msgstr "Room Code"
 
-#: poker/models.py:30
+#: poker/models.py:36
 msgid "model_room_room_code_help_text"
 msgstr "Unique code used to join the room."
 
-#: poker/models.py:36
+#: poker/models.py:40
 msgid "model_room_room_password_verbose"
 msgstr "Room Password"
 
-#: poker/models.py:37
+#: poker/models.py:41
 msgid "model_room_room_password_help_text"
 msgstr "Password for the room."
 
-#: poker/models.py:41
-msgid "model_room_revealed_verbose"
-msgstr "Votes Revealed?"
-
-#: poker/models.py:42
-msgid "model_room_revealed_help_text"
-msgstr "Indicates whether votes are visible to everyone."
-
-#: poker/models.py:46
+#: poker/models.py:45
 msgid "model_room_created_at_verbose"
 msgstr "Created At"
 
-#: poker/models.py:47
+#: poker/models.py:46
 msgid "model_room_created_at_help_text"
 msgstr "Date when the room was created."
 
-#: poker/models.py:51
+#: poker/models.py:50
 msgid "model_room_is_active_verbose"
 msgstr "Is Active?"
 
-#: poker/models.py:52
+#: poker/models.py:51
 msgid "model_room_is_active_help_text"
 msgstr "Indicates whether the room is active."
 
-#: poker/models.py:56
+#: poker/models.py:55
 msgid "model_room_verbose"
 msgstr "Room"
 
-#: poker/models.py:57
+#: poker/models.py:56
 msgid "model_room_verbose_plural"
 msgstr "Rooms"
 
-#: poker/models.py:103
+#: poker/models.py:106
+msgid "model_participant_user_verbose"
+msgstr "Participant User"
+
+#: poker/models.py:107
+msgid "model_participant_user_help_text"
+msgstr "The user associated with this participant."
+
+#: poker/models.py:115
 msgid "model_participant_room_verbose"
 msgstr "Room"
 
-#: poker/models.py:104
+#: poker/models.py:116
 msgid "model_participant_room_help_text"
 msgstr "Room the participant belongs to."
 
-#: poker/models.py:108
-msgid "model_participant_name_verbose"
-msgstr "Participant Name"
-
-#: poker/models.py:109
-msgid "model_participant_name_help_text"
-msgstr "Displayed name of the participant."
-
-#: poker/models.py:114
-msgid "model_participant_authentication_key_verbose"
-msgstr "Authentication Key"
-
-#: poker/models.py:115
-msgid "model_participant_authentication_key_help_text"
-msgstr "Unique authentication key for the participant."
-
-#: poker/models.py:119
+#: poker/models.py:120
 msgid "model_participant_is_active_verbose"
 msgstr "Is Active?"
 
-#: poker/models.py:120
+#: poker/models.py:121
 msgid "model_participant_is_active_help_text"
 msgstr "Indicates whether the participant is active."
 
-#: poker/models.py:124
+#: poker/models.py:125
 msgid "model_participant_verbose"
 msgstr "Participant"
 
-#: poker/models.py:125
+#: poker/models.py:126
 msgid "model_participant_verbose_plural"
 msgstr "Participants"
 
-#: poker/models.py:156
+#: poker/models.py:151
+msgid "model_sprint_room_verbose"
+msgstr "Sprint Room"
+
+#: poker/models.py:152
+msgid "model_sprint_room_help_text"
+msgstr "The room this sprint belongs to."
+
+#: poker/models.py:158
+msgid "model_sprint_tasks_verbose"
+msgstr "Sprint Tasks"
+
+#: poker/models.py:159
+msgid "model_sprint_tasks_help_text"
+msgstr "Tasks assigned to this sprint."
+
+#: poker/models.py:163
+msgid "model_sprint_name_verbose"
+msgstr "Sprint Name"
+
+#: poker/models.py:164
+msgid "model_sprint_name_help_text"
+msgstr "The name of the sprint."
+
+#: poker/models.py:168
+msgid "model_sprint_is_active_verbose"
+msgstr "Is Active"
+
+#: poker/models.py:169
+msgid "model_sprint_is_active_help_text"
+msgstr "Indicates whether the sprint is currently active."
+
+#: poker/models.py:173
+msgid "model_sprint_revealed_verbose"
+msgstr "Votes Revealed?"
+
+#: poker/models.py:174
+msgid "model_sprint_revealed_help_text"
+msgstr ""
+"Indicates whether all votes in this sprint are visible to participants."
+
+#: poker/models.py:178
+msgid "model_sprint_created_at_verbose"
+msgstr "Created At"
+
+#: poker/models.py:179
+msgid "model_sprint_created_at_help_text"
+msgstr "Date when the sprint was created."
+
+#: poker/models.py:183
+msgid "model_sprint_verbose"
+msgstr "Sprint"
+
+#: poker/models.py:184
+msgid "model_sprint_verbose_plural"
+msgstr "Sprints"
+
+#: poker/models.py:205
+msgid "model_sprint_active_exists_error"
+msgstr ""
+"There is already an active sprint in this room. You must close it first."
+
+#: poker/models.py:226
 msgid "model_task_status_pending"
 msgstr "Pending"
 
-#: poker/models.py:157
+#: poker/models.py:227
 msgid "model_task_status_voting"
 msgstr "Voting in progress"
 
-#: poker/models.py:158
+#: poker/models.py:228
 msgid "model_task_status_estimated"
 msgstr "Estimated"
 
-#: poker/models.py:159
+#: poker/models.py:229
 msgid "model_task_status_completed"
 msgstr "Completed"
 
-#: poker/models.py:167
+#: poker/models.py:236
 msgid "model_task_room_verbose"
 msgstr "Room"
 
-#: poker/models.py:168
+#: poker/models.py:237
 msgid "model_task_room_help_text"
 msgstr "Room this task belongs to."
 
-#: poker/models.py:172
+#: poker/models.py:241
 msgid "model_task_title_verbose"
 msgstr "Title"
 
-#: poker/models.py:173
+#: poker/models.py:242
 msgid "model_task_title_help_text"
 msgstr "Short title of the task."
 
-#: poker/models.py:176
+#: poker/models.py:245
 msgid "model_task_description_verbose"
 msgstr "Description"
 
-#: poker/models.py:177
+#: poker/models.py:246
 msgid "model_task_description_help_text"
 msgstr "Detailed description of the task."
 
-#: poker/models.py:184
+#: poker/models.py:253
 msgid "model_task_sp_verbose"
 msgstr "Story Point"
 
-#: poker/models.py:185
+#: poker/models.py:254
 msgid "model_task_sp_help_text"
 msgstr "Story point value assigned to the task."
 
-#: poker/models.py:191
+#: poker/models.py:260
 msgid "model_task_metrics_verbose"
 msgstr "Metrics"
 
-#: poker/models.py:192
+#: poker/models.py:261
 msgid "model_task_metrics_help_text"
 msgstr "Additional task metrics stored as JSON."
 
-#: poker/models.py:198
+#: poker/models.py:267
 msgid "model_task_status_verbose"
 msgstr "Status"
 
-#: poker/models.py:199
+#: poker/models.py:268
 msgid "model_task_status_help_text"
 msgstr "Current status of the task."
 
-#: poker/models.py:203
+#: poker/models.py:272
 msgid "model_task_is_active_verbose"
 msgstr "Is Active?"
 
-#: poker/models.py:204
+#: poker/models.py:273
 msgid "model_task_is_active_help_text"
 msgstr "Indicates whether the task is active."
 
-#: poker/models.py:208
+#: poker/models.py:277
 msgid "model_task_created_at_verbose"
 msgstr "Created At"
 
-#: poker/models.py:209
+#: poker/models.py:278
 msgid "model_task_created_at_help_text"
 msgstr "Date when the task was created."
 
-#: poker/models.py:213
+#: poker/models.py:282
 msgid "model_task_updated_at_verbose"
 msgstr "Updated At"
 
-#: poker/models.py:214
+#: poker/models.py:283
 msgid "model_task_updated_at_help_text"
 msgstr "Date when the task was last updated."
 
-#: poker/models.py:218
+#: poker/models.py:287
 msgid "model_task_verbose"
 msgstr "Task"
 
-#: poker/models.py:219
+#: poker/models.py:288
 msgid "model_task_verbose_plural"
 msgstr "Tasks"
 
-#: poker/models.py:336
+#: poker/models.py:403
 msgid "model_task_vote_task_verbose"
 msgstr "Task"
 
-#: poker/models.py:337
+#: poker/models.py:404
 msgid "model_task_vote_task_help_text"
 msgstr "Task this vote belongs to."
 
-#: poker/models.py:343
+#: poker/models.py:410
 msgid "model_task_vote_participant_verbose"
 msgstr "Participant"
 
-#: poker/models.py:344
+#: poker/models.py:411
 msgid "model_task_vote_participant_help_text"
 msgstr "Participant who cast the vote."
 
-#: poker/models.py:348
+#: poker/models.py:415
 msgid "model_task_vote_vote_verbose"
 msgstr "Vote Value"
 
-#: poker/models.py:349
+#: poker/models.py:416
 msgid "model_task_vote_vote_help_text"
 msgstr "Value of the vote cast by the participant."
 
-#: poker/models.py:353
+#: poker/models.py:420
 msgid "model_task_vote_voted_at_verbose"
 msgstr "Voted At"
 
-#: poker/models.py:354
+#: poker/models.py:421
 msgid "model_task_vote_voted_at_help_text"
 msgstr "Date and time when the vote was cast."
 
-#: poker/models.py:358
+#: poker/models.py:425
 msgid "model_task_vote_verbose"
 msgstr "Vote"
 
-#: poker/models.py:359
+#: poker/models.py:426
 msgid "model_task_vote_verbose_plural"
 msgstr "Votes"
 
-#: poker/services.py:144
+#: poker/services.py:148
 msgid "message_room_password_required"
 msgstr "A password is required to create a room."
 
-#: poker/services.py:152
+#: poker/services.py:159
 msgid "message_room_created_success"
 msgstr "Room successfully created! Room ID: %(room_id)s"
 
-#: poker/services.py:190
+#: poker/services.py:197
 msgid "message_fill_all_fields"
 msgstr "Please fill in all fields."
 
-#: poker/services.py:193
+#: poker/services.py:200
 msgid "message_wrong_password"
 msgstr "Incorrect password. Please try again."
 
-#: poker/services.py:196
+#: poker/services.py:203
 msgid "message_room_closed"
 msgstr "The room is closed. You cannot join."
 
@@ -508,21 +647,21 @@ msgstr "Create Room"
 msgid "room_page_title %(room)s"
 msgstr "Scrum Poker - Room %(room)s"
 
-#: poker/templates/layouts/room.layout.html:27 poker/templates/room.html:38
-#: poker/templates/tasks.html:20
+#: poker/templates/layouts/room.layout.html:32 poker/templates/room.html:38
+#: poker/templates/sprints.html:20
 msgid "room_logo_text"
 msgstr "Scrum Poker"
 
-#: poker/templates/layouts/room.layout.html:29 poker/templates/room.html:40
+#: poker/templates/layouts/room.layout.html:34 poker/templates/room.html:40
 msgid "room_copy_url"
 msgstr "Copied room URL"
 
-#: poker/templates/layouts/room.layout.html:58 poker/templates/room.html:69
+#: poker/templates/layouts/room.layout.html:63 poker/templates/room.html:69
 msgid "room_participants_header"
 msgstr "Participants"
 
-#: poker/templates/layouts/room.layout.html:60
-#: poker/templates/layouts/room.layout.html:61 poker/templates/room.html:71
+#: poker/templates/layouts/room.layout.html:65
+#: poker/templates/layouts/room.layout.html:66 poker/templates/room.html:71
 msgid "participant"
 msgstr "participant"
 
@@ -599,10 +738,10 @@ msgstr "Select Point Card"
 msgid "room_point_card_help"
 msgstr "Click on a card to select your point"
 
-#: poker/templates/room.html:26 poker/templates/task_detail.html:23
-#: poker/templates/tasks.html:18
-msgid "tasks_title"
-msgstr "Tasks"
+#: poker/templates/room.html:26 poker/templates/sprints.html:18
+#: poker/templates/tasks.html:20
+msgid "sprints_title"
+msgstr "Sprints"
 
 #: poker/templates/room.html:107
 msgid "room_show_results_button"
@@ -612,6 +751,14 @@ msgstr "Show Results"
 msgid "room_reset_votes_button"
 msgstr "Reset Votes"
 
+#: poker/templates/sprints.html:19
+msgid "sprints_subtitle"
+msgstr "Below is the list of all sprints in this room."
+
+#: poker/templates/sprints.html:50
+msgid "sprints_empty_state"
+msgstr "There are no tasks."
+
 #: poker/templates/task_detail.html:21
 msgid "task_detail_title"
 msgstr "Task Detail"
@@ -619,6 +766,10 @@ msgstr "Task Detail"
 #: poker/templates/task_detail.html:22
 msgid "task_detail_subtitle"
 msgstr "View details, votes, and estimation results for this task."
+
+#: poker/templates/task_detail.html:23 poker/templates/tasks.html:18
+msgid "tasks_title"
+msgstr "Tasks"
 
 #: poker/templates/task_detail.html:43
 msgid "task_detail_description_label"
@@ -656,44 +807,34 @@ msgstr "Below is the list of all tasks in this room."
 msgid "tasks_empty_state"
 msgstr "There are no tasks."
 
-#: poker/views.py:221 poker/views.py:347
+#: poker/views.py:270 poker/views.py:360
 msgid "message_task_not_found"
 msgstr "Task not found"
 
-#: poker/views.py:267
-msgid "message_auth_key_not_found"
-msgstr "Authentication key not found"
-
-#: poker/views.py:299
-msgid "message_vote_success"
-msgstr "Vote successful"
-
-#: poker/views.py:318 poker/views.py:464
+#: poker/views.py:328 poker/views.py:458
 msgid "message_participant_not_found"
 msgstr "Participant not found"
 
-#: poker/views.py:354
+#: poker/views.py:340
+msgid "message_vote_success"
+msgstr "Vote successful"
+
+#: poker/views.py:367
 msgid "message_task_update_success"
 msgstr "Task update successful"
 
-#: poker/views.py:378 poker/views.py:448
-msgid "message_invalid_request"
-msgstr "Invalid request."
-
-#: poker/views.py:383 poker/views.py:453
-msgid "message_participant_name_required"
-msgstr "Participant name is required."
-
-#: poker/views.py:403
-msgid "message_participant_already_exists"
-msgstr ""
-"A participant with this name already exists in the room. Please choose a "
-"different name."
-
-#: poker/views.py:417
+#: poker/views.py:414
 msgid "message_room_join_success"
 msgstr "Room join successful"
 
-#: poker/views.py:470
+#: poker/views.py:442
+msgid "message_invalid_request"
+msgstr "Invalid request."
+
+#: poker/views.py:447
+msgid "message_participant_name_required"
+msgstr "Participant name is required."
+
+#: poker/views.py:464
 msgid "message_room_participant_remove_success"
 msgstr "Removed participant successfully."

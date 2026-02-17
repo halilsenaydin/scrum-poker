@@ -2,13 +2,14 @@ from functools import wraps
 from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from .services import ResultUtil, RoomService
 
 def admin_required(view_func):
     @wraps(view_func)
     def _wrapped_view(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_staff:
+        if request.user.is_authenticated and not request.user.is_superuser:
             return JsonResponse(
                 ResultUtil.error_result(
                     _("message_only_admin_can_perform_action")
@@ -34,7 +35,7 @@ def room_not_revealed_required(view_func):
 def room_token_required(view_func):
     @wraps(view_func)
     def _wrapped_view(self, request, *args, **kwargs):
-        if request.user.is_staff or request.user.is_superuser:
+        if request.user.is_superuser:
             return view_func(self, request, *args, **kwargs)
 
         room = getattr(self, "room", None)
@@ -54,5 +55,19 @@ def room_token_required(view_func):
             return redirect(self.HOME_URL)
 
         return view_func(self, request, *args, **kwargs)
+
+    return _wrapped_view
+
+def user_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return view_func(self, request, *args, **kwargs)
+        
+        messages.error(request, _("message_auth_key_not_found"))
+
+        login_url = reverse("admin:login")
+
+        return redirect(f"{login_url}?next={request.path}")
 
     return _wrapped_view

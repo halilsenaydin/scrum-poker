@@ -1,26 +1,26 @@
 {% load i18n %}
 
 <div 
-    id="{% if authentication_key == participant.authentication_key %}current-participant{% endif %}" 
+    id="{% if request.user.username == participant.user.username %}current-participant{% endif %}" 
     class="participant-card {% if participant.task_votes.0 %}voted{% endif %}" 
-    data-name="{{ participant.name }}">
+    data-name="{{ participant.user.username }}">
     <div class="participant-info">
         <div class="avatar">
-            {{ participant.name|slice:":1"|upper }}
+            {{ participant.user.username|slice:":1"|upper }}
         </div>
         <span class="participant-name">
-            {{ participant.name }}
+            {{ participant.user.username }}
         </span>
     </div>
 
-    {% if authentication_key == participant.authentication_key %}
+    {% if request.user == participant.user %}
         <span class="participant-badge">{% trans "room_current_participant_badge_text" %}</span>
     {% endif %}
 
     {% if show_vote_display %}
     <div class="vote-display">
         {% with vote=participant.task_votes.0 %}
-            {% if is_admin or revealed or authentication_key == participant.authentication_key %}
+            {% if is_admin or revealed or request.user == participant.user %}
                 {% if vote %}
                     {{ vote.vote }}
                 {% else %}
@@ -34,7 +34,7 @@
     {% endif %}
 
     {% if is_admin %}
-        <div class="remove-user" data-name="{{ participant.name }}" onclick="handleRemoveUserClick(event, '{{ room_id|escapejs }}')">
+        <div class="remove-user" data-name="{{ participant.user.username }}" onclick="handleRemoveUserClick(event, '{{ room_id|escapejs }}')">
             <i class="fa-solid fa-user-minus"></i>
         </div>
     {% endif %}

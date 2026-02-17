@@ -12,9 +12,9 @@ from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 from .constants import PokerConstant
-from .models import Room, Participant, TaskVote, Task
+from .models import Room, Participant, TaskVote, Task, Sprint
 from .services import RoomService, ResultUtil
-from .decorators import admin_required, room_not_revealed_required, room_token_required
+from .decorators import admin_required, room_not_revealed_required, room_token_required, user_required
 
 class BaseView(View):
     # Page Urls
@@ -24,39 +24,11 @@ class BaseView(View):
     TASKS_URL = "poker:tasks"
 
     # Cookie Keys
-    COOKIE_AUTHENTICATION_KEY = "authentication_key"
-    COOKIE_ROOM_STATE = "room_state"
     COOKIE_TOKEN = "token"
 
     room_service = RoomService()
 
-    def _get_task_from_cookies(self, context):
-        room_state_raw = self.request.COOKIES.get(self.COOKIE_ROOM_STATE)
-        task_id = context.get("task_id")
-
-        if not room_state_raw or not task_id:
-            return None
-
-        try:
-            room_state = json.loads(room_state_raw)
-        except json.JSONDecodeError:
-            return None
-
-        task_data = room_state.get("tasks", {}).get(str(task_id), {})    
-
-        return task_data 
-        
-    def _get_selected_vote_from_cookies(self, context):
-        task_data = self._get_task_from_cookies(context)
-
-        return task_data.get("vote") if task_data else None
-
-    def _get_authentication_key_from_cookies(self):
-        authentication_key = self.request.COOKIES.get(self.COOKIE_AUTHENTICATION_KEY)
-
-        return authentication_key
-
-class BaseTemplateView(BaseView, TemplateView):
+class BaseTemplateView(TemplateView, BaseView):
     pass
 
 class RoomsHomeView(BaseTemplateView):
@@ -181,9 +153,10 @@ class RoomView(BaseTemplateView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
-class TaskView(BaseTemplateView):
-    template_name = "tasks.html"
+class SprintsView(BaseTemplateView):
+    template_name = "sprints.html"
 
+    @user_required
     def dispatch(self, request, *args, **kwargs):
         room_id = kwargs.get("room_id")
         self.room_id = room_id
@@ -198,26 +171,71 @@ class TaskView(BaseTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = (
-            self.room.tasks
-            .filter(is_active=True)
+        sprints = (
+            self.room.sprints
+            .filter()
         )
         participants = (
             self.room.participants
             .filter(is_active=True)
         )
         user = self.request.user
-        is_admin = user.is_authenticated and user.is_staff
-        authentication_key = self._get_authentication_key_from_cookies()
+        is_admin = user.is_superuser
 
         context.update({
-            "authentication_key": authentication_key,
+            "is_admin": is_admin,
+            "sprints": sprints,
+            "room_id": self.room_id,
+            "room_name": self.room.name,
+            "participants": participants
+        })
+
+        return context
+
+    @room_token_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+class TaskView(BaseTemplateView):
+    template_name = "tasks.html"
+
+    @user_required
+    def dispatch(self, request, *args, **kwargs):
+        room_id = kwargs.get("room_id")
+        sprint_id = kwargs.get("sprint_id")
+        self.room_id = room_id
+        self.sprint_id = sprint_id
+        self.room = Room.objects.filter(room_code=room_id).first()
+
+        if self.room is None:
+            messages.error(request, _('message_room_not_found'))
+
+            return redirect(self.HOME_URL)
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sprint = Sprint.objects.filter(pk=self.sprint_id).first()
+        tasks = []
+
+        if sprint:
+            tasks = sprint.tasks.filter(is_active=True)
+
+        participants = (
+            self.room.participants
+            .filter(is_active=True)
+        )
+        user = self.request.user
+        is_admin = user.is_superuser
+
+        context.update({
             "is_admin": is_admin,
             "tasks": tasks,
             "room_id": self.room_id,
             "room_name": self.room.name,
             "participants": participants,
-            "revealed": self.room.revealed
+            "revealed": True if sprint and (is_admin or sprint.revealed) else False
         })
 
         return context
@@ -230,10 +248,17 @@ class TaskView(BaseTemplateView):
 class TaskDetailView(BaseTemplateView):
     template_name = "task_detail.html"
     
+    @user_required
     def dispatch(self, request, *args, **kwargs):
+        self.room_code=kwargs.get("room_id")
         self.room = Room.objects.filter(
-            room_code=kwargs.get("room_id")
+            room_code=self.room_code
         ).first()
+        self.sprint_id=kwargs.get("sprint_id")
+        self.sprint = Sprint.objects.filter(
+            pk=self.sprint_id
+        ).first()
+        self.task_id=kwargs.get("task_id")
 
         if not self.room:
             messages.error(request, _("message_room_not_found"))
@@ -247,7 +272,7 @@ class TaskDetailView(BaseTemplateView):
         if not self.task:
             messages.error(request, _("message_task_not_found"))
 
-            return redirect(self.TASKS_URL, room_id=self.room.room_code)
+            return redirect(self.TASKS_URL, room_id=self.room.room_code, sprint_id=self.sprint_id)
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -265,79 +290,40 @@ class TaskDetailView(BaseTemplateView):
             )
         )
         user = self.request.user
-        is_admin = user.is_authenticated and user.is_staff
-        room_revealed = self.room.revealed
-        authentication_key = self._get_authentication_key_from_cookies()
+        is_admin = user.is_superuser
+        revealed = self.sprint.revealed if self.sprint else False
+        user_vote = None
+        user_vote_obj = self.task.votes.filter(participant__user=user).first()
+
+        if user_vote_obj:
+            user_vote = user_vote_obj.vote
 
         context.update({
-            "authentication_key": authentication_key,
-            "revealed": self.room.revealed,
-            "room_id": self.kwargs["room_id"],
+            "revealed": revealed,
+            "sprint_id": self.sprint_id,
+            "room_id": self.room_code,
             "room_name": self.room.name,
-            "task_id": self.kwargs["task_id"],
+            "task_id": self.task_id,
             "points": PokerConstant.POINTS,
-            "selected_vote": self._get_selected_vote_from_cookies(context),
+            "selected_vote": user_vote,
             "participants": participants,
             "is_admin": is_admin,
             "task": self.task,
-            "metrics": self.task.metrics if room_revealed or is_admin else None,
+            "metrics": self.task.metrics if revealed or is_admin else None,
             "show_vote_display": True
         })
 
         return context
 
-    @room_not_revealed_required
+    @room_not_revealed_required  
     def post(self, request, *args, **kwargs):
-        auth_key = request.COOKIES.get(self.COOKIE_AUTHENTICATION_KEY)
-
-        if not auth_key:
-            result = ResultUtil.error_result(_('message_auth_key_not_found')).__dict__
-
-            return JsonResponse(result, status=401)
-
         room_id = kwargs["room_id"]
-        task_id = kwargs["task_id"]
         data = json.loads(request.body)
         vote = data.get("vote")
 
-        # Current room state
-        room_state_raw = request.COOKIES.get(self.COOKIE_ROOM_STATE)
-
-        if room_state_raw:
-            try:
-                room_state = json.loads(room_state_raw)
-            except json.JSONDecodeError:
-                room_state = None
-        else:
-            room_state = None
-
-        # Set room state if not exist currently on cookie
-        if not room_state or room_state.get("room_id") != room_id:
-            room_state = {
-                "room_id": room_id,
-                "tasks": {}
-            }
-
-        # Update task state
-        room_state["tasks"][task_id] = {
-            "vote": vote
-        }
-
-        result = ResultUtil.success_result(_('message_vote_success'), {
-            "vote": vote
-        }).__dict__
-        response = JsonResponse(result)
-        response.set_cookie(
-            self.COOKIE_ROOM_STATE,
-            json.dumps(room_state),
-            httponly=True,
-            samesite="Lax",
-            secure=not settings.DEBUG
-        )
-
         try:
             participant = Participant.objects.get(
-                authentication_key=auth_key,
+                user=request.user,
                 room__room_code=room_id,
                 is_active=True
             )
@@ -346,7 +332,6 @@ class TaskDetailView(BaseTemplateView):
 
             return JsonResponse(result, status=403)
             
-
         TaskVote.objects.update_or_create(
             task=self.task,
             participant=participant,
@@ -355,7 +340,11 @@ class TaskDetailView(BaseTemplateView):
             }
         )
 
-        return response
+        result = ResultUtil.success_result(_('message_vote_success'), {
+            "vote": vote
+        }).__dict__
+
+        return JsonResponse(result)
     
     @admin_required
     def patch(self, request, *args, **kwargs):
@@ -390,6 +379,7 @@ class TaskDetailView(BaseTemplateView):
 
 @method_decorator(csrf_protect, name="dispatch")
 class AddParticipantView(BaseView):
+    @user_required
     def dispatch(self, request, *args, **kwargs):
         self.room_id = kwargs.get("room_id")
         self.room = Room.objects.filter(room_code=self.room_id).first()
@@ -401,71 +391,41 @@ class AddParticipantView(BaseView):
 
         return super().dispatch(request, *args, **kwargs)
     
+    @room_token_required
     def post(self, request, *args, **kwargs):
-        try:
-            data = json.loads(request.body)
-            name = data.get("name")
-        except json.JSONDecodeError:
-            result = ResultUtil.error_result(_("message_invalid_request")).__dict__
-
-            return JsonResponse(result)
-
-        if not name:
-            result = ResultUtil.error_result(_("message_participant_name_required")).__dict__
-
-            return JsonResponse(result)
-
+        user = request.user
         exists = Participant.objects.filter(
             room=self.room,
-            name=name
+            user=request.user
         ).exists()
-        authentication_key = self._get_authentication_key_from_cookies()
 
         if exists:
-            user_exists = Participant.objects.filter(
-                room=self.room,
-                name=name,
-                authentication_key=authentication_key
-            ).exists()
-
-            if user_exists:
-                result = ResultUtil.success_result(
-                    None,
-                    {'no_need_add_participant': True}
-                ).__dict__
-
-                return JsonResponse(result)
-
-            result = ResultUtil.error_result(
-                _("message_participant_already_exists")
+            result = ResultUtil.success_result(
+                None,
+                {'no_need_add_participant': True}
             ).__dict__
 
-            return JsonResponse(result, status=409)
+            return JsonResponse(result)
 
         create_data = {
             "room": self.room,
-            "name": name,
+            "user": user,
             "is_active": True,
         }
-
-        if authentication_key is not None:
-            create_data["authentication_key"] = authentication_key
-
         participant = Participant.objects.create(**create_data)
-        result = ResultUtil.success_result(_('message_room_join_success'), model_to_dict(participant, fields=["id", "name", "is_active"])).__dict__
-        response = JsonResponse(result)
-        response.set_cookie(
-            self.COOKIE_AUTHENTICATION_KEY, 
-            participant.authentication_key,
-            httponly=True,
-            samesite="Lax",
-            secure=not settings.DEBUG
-        )
+        result = ResultUtil.success_result(
+            _('message_room_join_success'),
+            {
+                **model_to_dict(participant, fields=["id", "is_active"]),
+                "username": participant.user.get_username()
+            }
+        ).__dict__
 
-        return response
+        return JsonResponse(result)
 
 @method_decorator(csrf_protect, name="dispatch")
 class RemoveParticipantView(BaseView):
+    @user_required
     def dispatch(self, request, *args, **kwargs):
         self.room_id = kwargs.get("room_id")
         self.room = Room.objects.filter(room_code=self.room_id).first()
@@ -481,20 +441,20 @@ class RemoveParticipantView(BaseView):
     def delete(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
-            name = data.get("name")
+            username = data.get("name")
         except json.JSONDecodeError:
             result = ResultUtil.error_result(_("message_invalid_request")).__dict__
 
             return JsonResponse(result)
 
-        if not name:
+        if not username:
             result = ResultUtil.error_result(_("message_participant_name_required")).__dict__
 
             return JsonResponse(result)
         
         participant = Participant.objects.filter(
             room=self.room,
-            name=name
+            user__username=username
         ).first()
 
         if participant is None:

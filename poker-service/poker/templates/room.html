@@ -23,8 +23,8 @@
 {% if has_room %}
   {% trans "room_select_point_card" as title %}
   {% trans "room_point_card_help" as subtitle %}
-  {% trans "tasks_title" as previous_label %}
-  {% url "poker:tasks" room_id=room_id as previous_url %}
+  {% trans "sprints_title" as previous_label %}
+  {% url "poker:sprints" room_id=room_id as previous_url %}
 {% endif %}
 
 <div id="toast" class="toast">

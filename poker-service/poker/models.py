@@ -1,14 +1,19 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password, check_password
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MinValueValidator
-from django.contrib.auth.hashers import make_password, check_password
 import uuid
 import random
 import string
 import statistics
 from .constants import PokerConstant
 from .services import RoomService
+
+User = get_user_model()
 
 def generate_room_code():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
@@ -18,7 +23,6 @@ def generate_auth_key():
 
 
 class Room(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=255,
         verbose_name=_("model_room_name_verbose"),
@@ -35,11 +39,6 @@ class Room(models.Model):
         max_length=255,
         verbose_name=_("model_room_room_password_verbose"),
         help_text=_("model_room_room_password_help_text"),
-    )
-    revealed = models.BooleanField(
-        default=False,
-        verbose_name=_("model_room_revealed_verbose"),
-        help_text=_("model_room_revealed_help_text"),
     )
     created_at = models.DateTimeField(
         default=timezone.now,
@@ -71,26 +70,10 @@ class Room(models.Model):
             while Room.objects.filter(room_code=self.room_code).exists():
                 self.room_code = generate_room_code()
 
-            self.sync_create_to_firebase(self.room_password)
             self.room_password = self.hash_password(self.room_password)
+            self.sync_create_to_firebase(self.room_password)
 
         super().save(*args, **kwargs)
-    
-    def reset_votes(self):
-        active_tasks = self.tasks.filter(is_active=True)
-
-        TaskVote.objects.filter(task__in=active_tasks).delete()
-
-        active_tasks.update(sp=None, metrics={})
-
-        self.revealed = False
-
-        self.save(update_fields=["revealed"])
-    
-    def reveal_votes(self):
-        self.revealed = True
-
-        self.save(update_fields=["revealed"])
     
     def get_active_participants(self):
         return self.participants.filter(is_active=True)
@@ -109,31 +92,28 @@ class Room(models.Model):
     def check_password(self, raw_password: str) -> bool:
         return check_password(raw_password, self.room_password)
 
-    def sync_create_to_firebase(self, raw_password: str):
+    def sync_create_to_firebase(self, hashed_password: str):
         room_service = RoomService()
         room_code = self.room_code
         
-        room_service.create_room(room_code=room_code, password=raw_password)
+        room_service.create_room(room_code=room_code, password=hashed_password, hash=False)
 
 class Participant(models.Model):
-    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='participant_entries',
+        verbose_name=_("model_participant_user_verbose"),
+        help_text=_("model_participant_user_help_text"),
+        null=True, 
+        blank=True
+    )
     room = models.ForeignKey(
         Room,
         on_delete=models.CASCADE,
         related_name='participants',
         verbose_name=_("model_participant_room_verbose"),
         help_text=_("model_participant_room_help_text"),
-    )
-    name = models.CharField(
-        max_length=255,
-        verbose_name=_("model_participant_name_verbose"),
-        help_text=_("model_participant_name_help_text"),
-    )
-    authentication_key = models.CharField(
-        max_length=255,
-        default=generate_auth_key,
-        verbose_name=_("model_participant_authentication_key_verbose"),
-        help_text=_("model_participant_authentication_key_help_text"),
     )
     is_active = models.BooleanField(
         default=True,
@@ -144,23 +124,15 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _("model_participant_verbose")
         verbose_name_plural = _("model_participant_verbose_plural")
-        unique_together = [
-            ['room', 'name'],
-            ['room', 'authentication_key'],
+        constraints = [
+            models.UniqueConstraint(fields=['room', 'user'], name='unique_room_user')
         ]
         indexes = [
-            models.Index(fields=['authentication_key']),
             models.Index(fields=['room', 'is_active']),
         ]
     
     def __str__(self):
-        return f"{self.name} - {self.room.room_code}"
-    
-    def save(self, *args, **kwargs):
-        if not self.pk and not self.authentication_key:
-            self.authentication_key = generate_auth_key()
-
-        super().save(*args, **kwargs)
+        return f"{self.user.username} - {self.room.room_code}"
     
     def has_voted_for_task(self, task):
         return self.votes.filter(task=task).exists()
@@ -171,6 +143,83 @@ class Participant(models.Model):
         except TaskVote.DoesNotExist:
             return None
 
+class Sprint(models.Model):
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='sprints',
+        verbose_name=_("model_sprint_room_verbose"),
+        help_text=_("model_sprint_room_help_text"),
+    )
+    tasks = models.ManyToManyField(
+        'Task',
+        blank=True,
+        related_name='sprints_in',
+        verbose_name=_("model_sprint_tasks_verbose"),
+        help_text=_("model_sprint_tasks_help_text"),
+    )
+    name = models.CharField(
+        max_length=500,
+        verbose_name=_("model_sprint_name_verbose"),
+        help_text=_("model_sprint_name_help_text"),
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("model_sprint_is_active_verbose"),
+        help_text=_("model_sprint_is_active_help_text"),
+    )
+    revealed = models.BooleanField(
+        default=False,
+        verbose_name=_("model_sprint_revealed_verbose"),
+        help_text=_("model_sprint_revealed_help_text"),
+    )
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name=_("model_sprint_created_at_verbose"),
+        help_text=_("model_sprint_created_at_help_text"),
+    )
+
+    class Meta:
+        verbose_name = _("model_sprint_verbose")
+        verbose_name_plural = _("model_sprint_verbose_plural")
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(fields=['room', 'name'], name='unique_room_sprint')
+        ]
+        indexes = [
+            models.Index(fields=['room', 'is_active']),
+        ]
+
+        def __str__(self):
+            return f"{self.name} - {self.room.room_code}"
+
+    def clean(self):
+        if self.is_active:
+            active_sprints = Sprint.objects.filter(room=self.room, is_active=True)
+
+            if self.pk:
+                active_sprints = active_sprints.exclude(pk=self.pk)
+
+            if active_sprints.exists():
+                raise ValidationError(
+                    _("model_sprint_active_exists_error")
+                )
+
+    def reset_votes(self):
+        active_tasks = self.tasks.filter(is_active=True)
+
+        TaskVote.objects.filter(task__in=active_tasks).delete()
+
+        active_tasks.update(sp=None, metrics={})
+
+        self.revealed = False
+
+        self.save(update_fields=["revealed"])
+    
+    def reveal_votes(self):
+        self.revealed = True
+
+        self.save(update_fields=["revealed"])
 
 class Task(models.Model):
     STATUS_CHOICES = [
@@ -180,7 +229,6 @@ class Task(models.Model):
         ('completed', _('model_task_status_completed')),
     ]
 
-    id = models.AutoField(primary_key=True)
     room = models.ForeignKey(
         Room,
         on_delete=models.CASCADE,
@@ -347,9 +395,7 @@ class Task(models.Model):
 
         return active_participants > 0 and vote_count >= active_participants
 
-
 class TaskVote(models.Model):
-    id = models.AutoField(primary_key=True)
     task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
@@ -386,7 +432,7 @@ class TaskVote(models.Model):
         ]
     
     def __str__(self):
-        return f"{self.participant.name} - {self.task.title}: {self.vote}"
+        return f"{self.participant.user.username} - {self.task.title}: {self.vote}"
     
     @classmethod
     def get_valid_votes(cls):

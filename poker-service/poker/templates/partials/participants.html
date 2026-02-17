@@ -7,7 +7,7 @@
     data-current-participant-badge-text="{% trans 'room_current_participant_badge_text' %}">
     {% if participants %}
         {% for participant in participants %}
-            {% include "partials/participant.html" with revealed=revealed participant=participant is_admin=is_admin authentication_key=authentication_key room_id=room_id show_vote_display=show_vote_display only %}
+            {% include "partials/participant.html" with request=request revealed=revealed participant=participant is_admin=is_admin room_id=room_id show_vote_display=show_vote_display only %}
         {% endfor %}
     {% else %}
         <div class="empty-state">

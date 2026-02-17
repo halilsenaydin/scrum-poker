@@ -19,13 +19,13 @@ import os
 from django.urls import re_path
 from django.views.static import serve
 from django.conf import settings
-from django.contrib import admin
 from django.urls import path, include
+from poker_service.admin_site import admin_site
 
 well_known_path = os.path.join(settings.BASE_DIR, "static/.well-known")
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin_site.urls),
     path("", include("poker.urls", namespace="poker")),
     re_path(r'^\.well-known/(?P<path>.*)$', serve, {'document_root': well_known_path}),
 ]

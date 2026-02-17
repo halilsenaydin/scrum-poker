@@ -132,7 +132,7 @@ class RoomService:
     def generate_token(self, room_code: str, room_password: str) -> str:
         return f"{room_code}:{room_password}"
 
-    def create_room(self, password: str, room_code: Optional[str] = None) -> Result:
+    def create_room(self, password: str, room_code: Optional[str] = None, hash: bool = True) -> Result:
         """
         Create a new poker room with the given password
 
@@ -151,8 +151,10 @@ class RoomService:
         if error:
             return ResultUtil.error_result(error)
 
-        room_password = make_password(password)
-        data = self.create_room_record(room_code, room_password)
+        if hash:
+            password = make_password(password)
+
+        data = self.create_room_record(room_code, password)
 
         return ResultUtil.success_result(_("message_room_created_success") % {"room_id": room_code}, data)
 
