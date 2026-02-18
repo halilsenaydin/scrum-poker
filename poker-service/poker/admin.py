@@ -454,7 +454,7 @@ class SprintAdmin(admin.ModelAdmin, SprintAdminExcel):
     readonly_fields = ['created_at']
     fieldsets = (
         (_('admin_sprint_fieldset_base_info_label'), {
-            'fields': ('room', 'name'),
+            'fields': ('room', 'name', 'tasks'),
         }),
         (_('admin_sprint_fieldset_status_label'), {
             'fields': ('is_active', 'revealed'),
@@ -474,6 +474,7 @@ class SprintAdmin(admin.ModelAdmin, SprintAdminExcel):
         'export_full_analytics_with_charts',
     ]
     list_per_page = 25
+    filter_horizontal = ['tasks']
 
     # ── Display Columns ──
     @admin.display(
